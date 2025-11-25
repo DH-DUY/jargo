@@ -44,6 +44,9 @@ public class FieldSelectionFragment extends Fragment {
         // Mặc định chọn IT
         RadioButton rbIT = view.findViewById(R.id.rbIT);
         rbIT.setChecked(true);
+        
+        // Lưu giá trị mặc định ngay lập tức
+        prefsManager.saveUserField(selectedField);
 
         // Lắng nghe thay đổi lựa chọn
         radioGroupFields.setOnCheckedChangeListener((group, checkedId) -> {
