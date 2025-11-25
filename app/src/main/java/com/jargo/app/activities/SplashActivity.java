@@ -9,6 +9,7 @@ import com.jargo.app.MainActivity;
 import com.jargo.app.R;
 import com.jargo.app.utils.Constants;
 import com.jargo.app.utils.SharedPrefsManager;
+import java.util.UUID;
 
 /**
  * SplashActivity - Màn hình chào đầu tiên khi mở app
@@ -26,6 +27,12 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         prefsManager = SharedPrefsManager.getInstance(this);
+
+        // Tạo Guest ID nếu chưa có
+        if (prefsManager.getUserId() == null) {
+            String guestId = UUID.randomUUID().toString();
+            prefsManager.saveUserId(guestId);
+        }
 
         // Delay 2 giây rồi chuyển màn hình
         new Handler(Looper.getMainLooper()).postDelayed(() -> {

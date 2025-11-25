@@ -68,6 +68,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:cardElevation="@dimen/card_elevation"
+                app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvQuestionNumber">
@@ -84,9 +85,9 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- RadioGroup for Multiple Choice -->
-            <RadioGroup
-                android:id="@+id/radioGroupOptions"
+            <!-- Options Container -->
+            <LinearLayout
+                android:id="@+id/optionsContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
@@ -95,30 +96,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardQuestion">
 
-                <!-- RadioButtons will be added dynamically -->
+                <!-- RadioGroup for Multiple Choice -->
+                <RadioGroup
+                    android:id="@+id/radioGroupOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            </RadioGroup>
+                    <!-- RadioButtons will be added dynamically -->
 
-            <!-- EditText for Fill Blank -->
-            <EditText
-                android:id="@+id/etFillBlank"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
-                android:padding="@dimen/padding_medium"
-                android:hint="@string/quiz_answer_hint"
-                android:inputType="text"
-                android:autofillHints=""
-                android:importantForAutofill="no"
-                android:background="@drawable/button_primary"
-                android:textSize="@dimen/text_size_body"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintWidth_max="320dp"
-                app:layout_constraintTop_toBottomOf="@id/cardQuestion"
-                tools:visibility="visible"
-                tools:ignore="LabelFor,ContentDescription" />
+                </RadioGroup>
+
+                <!-- EditText for Fill Blank -->
+                <EditText
+                    android:id="@+id/etFillBlank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_medium"
+                    android:hint="@string/quiz_answer_hint"
+                    android:inputType="text"
+                    android:autofillHints=""
+                    android:importantForAutofill="no"
+                    android:background="@drawable/bg_edit_text"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_body"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:ignore="LabelFor,ContentDescription" />
+            </LinearLayout>
 
             <!-- Buttons -->
             <Button
@@ -135,7 +140,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintWidth_max="320dp"
-                app:layout_constraintTop_toBottomOf="@id/radioGroupOptions"
+                app:layout_constraintTop_toBottomOf="@id/optionsContainer"
                 tools:ignore="ButtonStyle,DuplicateClickableBoundsCheck" />
 
             <Button
