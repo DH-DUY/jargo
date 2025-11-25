@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="200dp"
+    android:height="60dp"
+    android:viewportWidth="200"
+    android:viewportHeight="60">
+
+    <!-- Light Blue Circle (Left) -->
+    <path
+        android:pathData="M30,30m-25,0a25,25 0,1 1,50 0a25,25 0,1 1,-50 0"
+        android:fillColor="#4FC3F7" />
+
+    <!-- Deep Blue Rounded Rect (Right) -->
+    <path
+        android:pathData="M30,5h20a10,10 0 0 1,10 10v30a10,10 0 0 1,-10 10h-20a25,25 0 0 1,0 -50z"
+        android:fillColor="#1565C0"
+        android:fillAlpha="0.9" />
+
+    <!-- Letter J (Yellow/Orange Gradient) -->
+    <path
+        android:pathData="M38,15h-8v20c0,5.5 -4.5,8 -8,8s-6,-2 -6,-5h-6c0,8 6,13 12,13s14,-6 14,-16V15z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startY="15"
+                android:endY="51"
+                android:type="linear">
+                <item android:offset="0" android:color="#FFEB3B"/>
+                <item android:offset="1" android:color="#FF9800"/>
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Text "ARGO" -->
+    <path
+        android:pathData="M80,40l-2,-6h-8l-2,6h-5l8,-22h6l8,22h-5zM76,28l-2.5,8h5L76,28z
+                          M105,40l-4,-7h-3v7h-5V18h9c5,0 8,3 8,7c0,3 -2,5 -5,6l5,9h-5zM98,22h-3v7h3c2,0 4,-1 4,-3.5S100,22 98,22z
+                          M130,32v-6h5v12c-2,2 -5,3 -8,3c-6,0 -10,-5 -10,-11s4,-11 10,-11c4,0 7,2 9,5l-4,3c-1,-2 -3,-3 -5,-3c-3,0 -5,3 -5,6s2,6 5,6c2,0 3,-1 3,-2v-2h-3z
+                          M155,41c-6,0 -11,-5 -11,-11s5,-11 11,-11s11,5 11,11S161,41 155,41zM155,23c-3,0 -6,3 -6,7s3,7 6,7s6,-3 6,-7S158,23 155,23z"
+        android:fillColor="#0D47A1" />
+
+</vector>

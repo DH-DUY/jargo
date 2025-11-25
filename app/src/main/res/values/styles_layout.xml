@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- Layout Styles with Status Bar Padding -->
+    
+    <!-- Screen Root Layout - with status bar spacing -->
+    <style name="ScreenRootLayout">
+        <item name="android:paddingTop">40dp</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+    
+    <!-- Fragment Root Layout - with status bar spacing -->
+    <style name="FragmentRootLayout">
+        <item name="android:paddingTop">40dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+    
+    <!-- Card Header Layout - for top cards -->
+    <style name="CardHeaderLayout">
+        <item name="android:paddingTop">32dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+    
+</resources>

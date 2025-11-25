@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Trophy Base -->
+    <path
+        android:pathData="M80,140h40v15c0,5 -5,10 -10,10h-20c-5,0 -10,-5 -10,-10z"
+        android:fillColor="#FFC107" />
+    
+    <!-- Trophy Stem -->
+    <path
+        android:pathData="M95,120h10v20h-10z"
+        android:fillColor="#FFB300" />
+    
+    <!-- Trophy Cup -->
+    <path
+        android:pathData="M60,60h80v45c0,15 -15,20 -40,20s-40,-5 -40,-20z"
+        android:fillColor="#FFC107" />
+    
+    <!-- Trophy Handles -->
+    <path
+        android:pathData="M55,70h-15c-5,0 -10,5 -10,10v10c0,5 5,10 10,10h15z"
+        android:fillColor="#FFD54F" />
+    <path
+        android:pathData="M145,70h15c5,0 10,5 10,10v10c0,5 -5,10 -10,10h-15z"
+        android:fillColor="#FFD54F" />
+    
+    <!-- Trophy Detail Lines -->
+    <path
+        android:pathData="M70,75h60"
+        android:strokeColor="#FFB300"
+        android:strokeWidth="2" />
+    <path
+        android:pathData="M75,85h50"
+        android:strokeColor="#FFB300"
+        android:strokeWidth="2" />
+    
+    <!-- Star on Trophy -->
+    <path
+        android:pathData="M100,85l5,15l16,0l-13,10l5,15l-13,-10l-13,10l5,-15l-13,-10l16,0z"
+        android:fillColor="#FF6F00" />
+    
+    <!-- Confetti -->
+    <path
+        android:pathData="M40,30l-3,8l-8,3l8,3l3,8l3,-8l8,-3l-8,-3z"
+        android:fillColor="#E91E63" />
+    <path
+        android:pathData="M160,40l-2,6l-6,2l6,2l2,6l2,-6l6,-2l-6,-2z"
+        android:fillColor="#2979FF" />
+    <path
+        android:pathData="M180,100l-2,5l-5,2l5,2l2,5l2,-5l5,-2l-5,-2z"
+        android:fillColor="#4CAF50" />
+    <path
+        android:pathData="M30,120l-3,7l-7,3l7,3l3,7l3,-7l7,-3l-7,-3z"
+        android:fillColor="#FFC107" />
+    
+    <!-- Small circles (confetti) -->
+    <path
+        android:pathData="M50,50m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0"
+        android:fillColor="#9C27B0" />
+    <path
+        android:pathData="M150,60m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"
+        android:fillColor="#FF5722" />
+    <path
+        android:pathData="M40,100m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+        android:fillColor="#00BCD4" />
+</vector>

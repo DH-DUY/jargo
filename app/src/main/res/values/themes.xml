@@ -1,9 +1,35 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Jargo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Jargo" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary Brand Colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <!-- Secondary/Accent -->
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
+        
+        <!-- Backgrounds -->
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        
+        <!-- Status Bar -->
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">true</item> <!-- Dark icons on light bg -->
+        
+        <!-- Navigation Bar -->
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Theme.Jargo" parent="Base.Theme.Jargo" />
+    
+    <!-- Toolbar Style -->
+    <style name="Theme.Jargo.AppBar" parent="Theme.Jargo">
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowLightStatusBar">false</item> <!-- Light icons on dark bg -->
+    </style>
 </resources>

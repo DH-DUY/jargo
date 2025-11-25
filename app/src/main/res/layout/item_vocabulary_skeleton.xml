@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:layout_margin="32dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp"
+    app:cardBackgroundColor="@color/surface">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="32dp">
+
+        <!-- Skeleton Badge -->
+        <View
+            android:id="@+id/skeletonBadge"
+            android:layout_width="80dp"
+            android:layout_height="24dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Skeleton Word -->
+        <View
+            android:id="@+id/skeletonWord"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Skeleton Pronunciation -->
+        <View
+            android:id="@+id/skeletonPronunciation"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/skeletonWord" />
+
+        <!-- Skeleton Type -->
+        <View
+            android:layout_width="60dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/skeletonPronunciation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

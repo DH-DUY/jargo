@@ -10,7 +10,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large">
+        android:paddingTop="64dp"
+        android:paddingBottom="24dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
         <!-- Title -->
         <TextView

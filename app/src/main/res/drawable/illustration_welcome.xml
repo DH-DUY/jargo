@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="240dp"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+    
+    <!-- Background Circle -->
+    <path
+        android:pathData="M120,120m-100,0a100,100 0,1 1,200 0a100,100 0,1 1,-200 0"
+        android:fillColor="#E3F2FD" />
+    
+    <!-- Book (Large) -->
+    <path
+        android:pathData="M70,90h100v80c0,5 -5,10 -10,10h-80c-5,0 -10,-5 -10,-10v-80z"
+        android:fillColor="#2979FF" />
+    
+    <!-- Book Pages -->
+    <path
+        android:pathData="M120,90v90"
+        android:strokeColor="#1565C0"
+        android:strokeWidth="2" />
+    
+    <!-- Bookmark -->
+    <path
+        android:pathData="M105,60h30v40l-15,-10l-15,10z"
+        android:fillColor="#FFC107" />
+    
+    <!-- Sparkles -->
+    <path
+        android:pathData="M50,70l5,15l15,5l-15,5l-5,15l-5,-15l-15,-5l15,-5z"
+        android:fillColor="#FFD54F" />
+    
+    <path
+        android:pathData="M190,100l4,10l10,4l-10,4l-4,10l-4,-10l-10,-4l10,-4z"
+        android:fillColor="#FFD54F" />
+    
+    <!-- Brain/Learning Icon (Small) -->
+    <path
+        android:pathData="M160,50c-8,0 -15,7 -15,15c0,8 7,15 15,15c8,0 15,-7 15,-15c0,-8 -7,-15 -15,-15z"
+        android:fillColor="#64B5F6" />
+</vector>

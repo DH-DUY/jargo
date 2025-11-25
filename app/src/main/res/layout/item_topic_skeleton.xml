@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/surface">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <!-- Skeleton Icon -->
+        <View
+            android:id="@+id/skeletonIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Skeleton Title -->
+        <View
+            android:id="@+id/skeletonTitle"
+            android:layout_width="0dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="60dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/skeletonIcon"
+            app:layout_constraintTop_toTopOf="@id/skeletonIcon" />
+
+        <!-- Skeleton Subtitle -->
+        <View
+            android:id="@+id/skeletonSubtitle"
+            android:layout_width="120dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintStart_toStartOf="@id/skeletonTitle"
+            app:layout_constraintTop_toBottomOf="@id/skeletonTitle" />
+
+        <!-- Skeleton Description -->
+        <View
+            android:id="@+id/skeletonDesc"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/skeletonIcon" />
+
+        <!-- Skeleton Progress Bar -->
+        <View
+            android:id="@+id/skeletonProgress"
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="60dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/skeletonDesc" />
+
+        <!-- Skeleton Stats -->
+        <View
+            android:layout_width="80dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/skeleton_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/skeletonProgress" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

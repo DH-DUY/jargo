@@ -1,7 +1,41 @@
 <resources>
-    <!-- Base application theme. -->
+    <!-- Dark Theme -->
     <style name="Base.Theme.Jargo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Primary Colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/black</item>
+        
+        <!-- Secondary/Accent Colors -->
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/black</item>
+        
+        <!-- Background Colors -->
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        
+        <!-- Status Bar & Navigation Bar -->
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        
+        <!-- Text Colors -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+        
+        <!-- Card & Elevation -->
+        <item name="cardViewStyle">@style/CardView.Dark</item>
+        <item name="elevationOverlayEnabled">true</item>
+        <item name="elevationOverlayColor">@color/white</item>
+    </style>
+    
+    <!-- Dark Card Style -->
+    <style name="CardView.Dark" parent="CardView">
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="cardElevation">4dp</item>
     </style>
 </resources>

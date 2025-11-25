@@ -127,7 +127,11 @@ public class QuizActivity extends AppCompatActivity {
         tvQuestionNumber.setText(getString(R.string.quiz_question, currentQuestionIndex + 1, totalQuestions));
 
         // Question text
-        tvQuestion.setText(quiz.getQuestion());
+        String questionText = quiz.getQuestion();
+        if (questionText == null || questionText.trim().isEmpty()) {
+            questionText = "Câu hỏi đang được cập nhật...";
+        }
+        tvQuestion.setText(questionText);
 
         // Progress bar
         int progress = (int) (((currentQuestionIndex + 1) * 100.0) / totalQuestions);

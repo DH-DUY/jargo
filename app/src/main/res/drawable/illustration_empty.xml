@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Cloud Background -->
+    <path
+        android:pathData="M50,100c0,-15 10,-25 25,-25c5,-10 15,-15 25,-15s20,5 25,15c15,0 25,10 25,25s-10,25 -25,25h-50c-15,0 -25,-10 -25,-25z"
+        android:fillColor="#E3F2FD" />
+    
+    <!-- Open Book -->
+    <path
+        android:pathData="M60,90h35v50l-17.5,-10l-17.5,10z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="2" />
+    
+    <path
+        android:pathData="M105,90h35v50l-17.5,-10l-17.5,10z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="2" />
+    
+    <!-- Book binding -->
+    <path
+        android:pathData="M100,90v50"
+        android:strokeColor="#90A4AE"
+        android:strokeWidth="3" />
+    
+    <!-- Text lines (placeholder) -->
+    <path
+        android:pathData="M70,100h15"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M70,108h20"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M70,116h18"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round" />
+    
+    <path
+        android:pathData="M115,100h15"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M115,108h20"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M115,116h18"
+        android:strokeColor="#E0E0E0"
+        android:strokeWidth="2"
+        android:strokeLineCap="round" />
+    
+    <!-- Magnifying glass (searching) -->
+    <path
+        android:pathData="M160,60m-15,0a15,15 0,1 1,30 0a15,15 0,1 1,-30 0"
+        android:strokeColor="#90A4AE"
+        android:strokeWidth="3"
+        android:fillColor="#FFFFFF" />
+    <path
+        android:pathData="M171,71l10,10"
+        android:strokeColor="#90A4AE"
+        android:strokeWidth="3"
+        android:strokeLineCap="round" />
+    
+    <!-- Question mark -->
+    <path
+        android:pathData="M155,56c0,-3 2,-5 5,-5s5,2 5,5c0,2 -1,3 -2,4c-1,1 -2,2 -2,3v2"
+        android:strokeColor="#B0BEC5"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M160,68m-1.5,0a1.5,1.5 0,1 1,3 0a1.5,1.5 0,1 1,-3 0"
+        android:fillColor="#B0BEC5" />
+</vector>

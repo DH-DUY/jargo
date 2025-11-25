@@ -1,132 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large">
+        android:padding="24dp">
 
-        <!-- Tiêu đề -->
+        <!-- Illustration -->
+        <ImageView
+            android:id="@+id/ivIllustration"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/illustration_field"
+            android:contentDescription="@string/onboarding_select_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Title -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_select_field"
-            android:textSize="@dimen/text_size_heading"
+            android:textSize="24sp"
             android:textColor="@color/text_primary"
             android:textStyle="bold"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/ivIllustration" />
 
-        <!-- Radio Group cho các chuyên ngành -->
+        <!-- Radio Group -->
         <RadioGroup
             android:id="@+id/radioGroupFields"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xlarge"
+            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
-            <!-- IT -->
+            <!-- IT Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                android:layout_marginBottom="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <RadioButton
-                    android:id="@+id/rbIT"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/field_it"
-                    android:textSize="@dimen/text_size_title"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:drawablePadding="@dimen/padding_medium" />
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingBottom="@dimen/padding_medium"
-                    android:text="@string/field_it_desc"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/text_secondary" />
+                    <!-- Icon -->
+                    <ImageView
+                        android:id="@+id/ivIT"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/ic_field_it"
+                        android:contentDescription="@string/field_it"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Radio Button -->
+                    <RadioButton
+                        android:id="@+id/rbIT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Title -->
+                    <TextView
+                        android:id="@+id/tvIT"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/field_it"
+                        android:textSize="20sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/rbIT"
+                        app:layout_constraintStart_toEndOf="@id/ivIT"
+                        app:layout_constraintTop_toTopOf="@id/ivIT" />
+
+                    <!-- Description -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/field_it_desc"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        app:layout_constraintEnd_toEndOf="@id/tvIT"
+                        app:layout_constraintStart_toStartOf="@id/tvIT"
+                        app:layout_constraintTop_toBottomOf="@id/tvIT" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
 
-            <!-- Medical -->
+            <!-- Medical Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                android:layout_marginBottom="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <RadioButton
-                    android:id="@+id/rbMedical"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/field_medical"
-                    android:textSize="@dimen/text_size_title"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:drawablePadding="@dimen/padding_medium" />
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingBottom="@dimen/padding_medium"
-                    android:text="@string/field_medical_desc"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/text_secondary" />
+                    <ImageView
+                        android:id="@+id/ivMedical"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/ic_field_medical"
+                        android:contentDescription="@string/field_medical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbMedical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvMedical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/field_medical"
+                        android:textSize="20sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/rbMedical"
+                        app:layout_constraintStart_toEndOf="@id/ivMedical"
+                        app:layout_constraintTop_toTopOf="@id/ivMedical" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/field_medical_desc"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        app:layout_constraintEnd_toEndOf="@id/tvMedical"
+                        app:layout_constraintStart_toStartOf="@id/tvMedical"
+                        app:layout_constraintTop_toBottomOf="@id/tvMedical" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
 
-            <!-- Economics -->
+            <!-- Economics Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <RadioButton
-                    android:id="@+id/rbEconomics"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/field_economics"
-                    android:textSize="@dimen/text_size_title"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:drawablePadding="@dimen/padding_medium" />
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingBottom="@dimen/padding_medium"
-                    android:text="@string/field_economics_desc"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/text_secondary" />
+                    <ImageView
+                        android:id="@+id/ivEconomics"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/ic_field_economics"
+                        android:contentDescription="@string/field_economics"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbEconomics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvEconomics"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/field_economics"
+                        android:textSize="20sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/rbEconomics"
+                        app:layout_constraintStart_toEndOf="@id/ivEconomics"
+                        app:layout_constraintTop_toTopOf="@id/ivEconomics" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/field_economics_desc"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        app:layout_constraintEnd_toEndOf="@id/tvEconomics"
+                        app:layout_constraintStart_toStartOf="@id/tvEconomics"
+                        app:layout_constraintTop_toBottomOf="@id/tvEconomics" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
 
         </RadioGroup>

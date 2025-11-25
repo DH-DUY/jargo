@@ -10,31 +10,47 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large">
+        android:paddingTop="64dp"
+        android:paddingBottom="24dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp">
 
-        <!-- Avatar -->
-        <View
-            android:id="@+id/viewAvatar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/button_primary"
+        <!-- Avatar Container -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardAvatar"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            app:cardCornerRadius="56dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/primary_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+            
+            <!-- Avatar -->
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:src="@drawable/ic_avatar_default"
+                android:contentDescription="@string/profile_avatar" />
+                
+        </androidx.cardview.widget.CardView>
 
         <!-- User Name -->
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="16dp"
             tools:text="User Name"
-            android:textSize="@dimen/text_size_heading"
+            android:textSize="24sp"
             android:textColor="@color/text_primary"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewAvatar" />
+            app:layout_constraintTop_toBottomOf="@id/cardAvatar" />
 
         <!-- Email -->
         <TextView

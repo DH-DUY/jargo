@@ -5,21 +5,34 @@
     android:layout_height="match_parent"
     android:padding="@dimen/padding_large">
 
+    <!-- Illustration -->
+    <ImageView
+        android:id="@+id/ivIllustration"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:src="@drawable/illustration_welcome"
+        android:contentDescription="@string/onboarding_welcome"
+        app:layout_constraintBottom_toTopOf="@id/tvAppName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <!-- Logo lớn -->
     <TextView
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="@string/app_name"
-        android:textSize="56sp"
+        android:textSize="48sp"
         android:textColor="@color/primary"
         android:textStyle="bold"
         android:fontFamily="sans-serif-black"
         app:layout_constraintBottom_toTopOf="@id/tvWelcome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/ivIllustration" />
 
     <!-- Chào mừng -->
     <TextView

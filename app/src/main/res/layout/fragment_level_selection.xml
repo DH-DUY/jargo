@@ -1,132 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large">
+        android:padding="24dp">
 
-        <!-- Tiêu đề -->
+        <!-- Illustration -->
+        <ImageView
+            android:id="@+id/ivIllustration"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/illustration_level"
+            android:contentDescription="@string/onboarding_select_level"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Title -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_select_level"
-            android:textSize="@dimen/text_size_heading"
+            android:textSize="24sp"
             android:textColor="@color/text_primary"
             android:textStyle="bold"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/ivIllustration" />
 
-        <!-- Radio Group cho các trình độ -->
+        <!-- Radio Group -->
         <RadioGroup
             android:id="@+id/radioGroupLevels"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_xlarge"
+            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitle">
 
-            <!-- Beginner -->
+            <!-- Beginner Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                android:layout_marginBottom="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <RadioButton
-                    android:id="@+id/rbBeginner"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/level_beginner"
-                    android:textSize="@dimen/text_size_title"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:drawablePadding="@dimen/padding_medium" />
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingBottom="@dimen/padding_medium"
-                    android:text="@string/level_beginner_desc"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/text_secondary" />
+                    <ImageView
+                        android:id="@+id/ivBeginner"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/ic_level_beginner"
+                        android:contentDescription="@string/level_beginner"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbBeginner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvBeginner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/level_beginner"
+                        android:textSize="20sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/rbBeginner"
+                        app:layout_constraintStart_toEndOf="@id/ivBeginner"
+                        app:layout_constraintTop_toTopOf="@id/ivBeginner" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/level_beginner_desc"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        app:layout_constraintEnd_toEndOf="@id/tvBeginner"
+                        app:layout_constraintStart_toStartOf="@id/tvBeginner"
+                        app:layout_constraintTop_toBottomOf="@id/tvBeginner" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
 
-            <!-- Intermediate -->
+            <!-- Intermediate Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                android:layout_marginBottom="16dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <RadioButton
-                    android:id="@+id/rbIntermediate"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/level_intermediate"
-                    android:textSize="@dimen/text_size_title"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:drawablePadding="@dimen/padding_medium" />
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingBottom="@dimen/padding_medium"
-                    android:text="@string/level_intermediate_desc"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/text_secondary" />
+                    <ImageView
+                        android:id="@+id/ivIntermediate"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/ic_level_intermediate"
+                        android:contentDescription="@string/level_intermediate"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbIntermediate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvIntermediate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/level_intermediate"
+                        android:textSize="20sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/rbIntermediate"
+                        app:layout_constraintStart_toEndOf="@id/ivIntermediate"
+                        app:layout_constraintTop_toTopOf="@id/ivIntermediate" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/level_intermediate_desc"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        app:layout_constraintEnd_toEndOf="@id/tvIntermediate"
+                        app:layout_constraintStart_toStartOf="@id/tvIntermediate"
+                        app:layout_constraintTop_toBottomOf="@id/tvIntermediate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
 
-            <!-- Professional -->
+            <!-- Professional Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface">
 
-                <RadioButton
-                    android:id="@+id/rbProfessional"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_medium"
-                    android:text="@string/level_professional"
-                    android:textSize="@dimen/text_size_title"
-                    android:textColor="@color/text_primary"
-                    android:textStyle="bold"
-                    android:drawablePadding="@dimen/padding_medium" />
+                    android:padding="20dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="48dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:paddingBottom="@dimen/padding_medium"
-                    android:text="@string/level_professional_desc"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/text_secondary" />
+                    <ImageView
+                        android:id="@+id/ivProfessional"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:src="@drawable/ic_level_professional"
+                        android:contentDescription="@string/level_professional"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RadioButton
+                        android:id="@+id/rbProfessional"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/primary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvProfessional"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/level_professional"
+                        android:textSize="20sp"
+                        android:textColor="@color/text_primary"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@id/rbProfessional"
+                        app:layout_constraintStart_toEndOf="@id/ivProfessional"
+                        app:layout_constraintTop_toTopOf="@id/ivProfessional" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/level_professional_desc"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        app:layout_constraintEnd_toEndOf="@id/tvProfessional"
+                        app:layout_constraintStart_toStartOf="@id/tvProfessional"
+                        app:layout_constraintTop_toBottomOf="@id/tvProfessional" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.cardview.widget.CardView>
 
         </RadioGroup>

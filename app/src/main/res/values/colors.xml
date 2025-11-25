@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
-    <color name="primary">#2563EB</color>
-    <color name="primary_dark">#1E40AF</color>
-    <color name="primary_light">#3B82F6</color>
+    <!-- Brand Colors (JARGO Identity) -->
+    <color name="primary">#2979FF</color>      <!-- Bright Blue -->
+    <color name="primary_dark">#1565C0</color> <!-- Deep Blue -->
+    <color name="primary_light">#E3F2FD</color> <!-- Light Blue -->
     
-    <!-- Secondary Colors -->
-    <color name="secondary">#0F172A</color>
-    <color name="secondary_light">#1E293B</color>
-    
-    <!-- Accent Colors -->
-    <color name="accent">#F59E0B</color>
-    <color name="accent_light">#FBBF24</color>
-    
-    <!-- Background -->
-    <color name="background">#F8FAFC</color>
-    <color name="surface">#FFFFFF</color>
-    <color name="surface_variant">#F1F5F9</color>
-    
-    <!-- Status Colors -->
-    <color name="success">#22C55E</color>
-    <color name="error">#EF4444</color>
-    <color name="warning">#F59E0B</color>
-    <color name="info">#3B82F6</color>
+    <!-- Accent Colors (The "J" & Highlights) -->
+    <color name="accent">#FFC107</color>       <!-- Amber -->
+    <color name="accent_dark">#FF6F00</color>  <!-- Deep Orange -->
+    <color name="accent_light">#FFECB3</color> <!-- Light Amber -->
     
     <!-- Text Colors -->
-    <color name="text_primary">#0F172A</color>
-    <color name="text_secondary">#64748B</color>
-    <color name="text_tertiary">#94A3B8</color>
+    <color name="text_primary">#0D47A1</color>   <!-- Brand Dark Blue for Headings -->
+    <color name="text_secondary">#546E7A</color> <!-- Blue Grey for Body -->
+    <color name="text_hint">#B0BEC5</color>      <!-- Light Grey -->
     <color name="text_white">#FFFFFF</color>
-    <color name="text_hint">#CBD5E1</color>
     
-    <!-- Basic Colors -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="transparent">#00000000</color>
+    <!-- Backgrounds -->
+    <color name="background">#F5F7FA</color>     <!-- Off-white (Cool tone) -->
+    <color name="surface">#FFFFFF</color>        <!-- Pure White -->
+    <color name="surface_variant">#E1F5FE</color> <!-- Very light blue surface -->
     
-    <!-- Overlay -->
+    <!-- Functional -->
+    <color name="success">#00C853</color>        <!-- Vivid Green -->
+    <color name="error">#D50000</color>          <!-- Vivid Red -->
+    <color name="warning">#FFAB00</color>        <!-- Orange -->
+    
+    <!-- Basics -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>    <!-- Overlay -->
     <color name="overlay_dark">#80000000</color>
-    <color name="overlay_light">#40FFFFFF</color>
+    <color name="overlay_light">#80FFFFFF</color>
+    <color name="divider">#ECEFF1</color>
+    
+    <!-- Gradients (Reference) -->
+    <color name="gradient_start">#2979FF</color>
+    <color name="gradient_end">#0D47A1</color>
 </resources>

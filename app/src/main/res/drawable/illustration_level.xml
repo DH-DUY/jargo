@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="240dp"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+    
+    <!-- Background -->
+    <path
+        android:pathData="M120,120m-100,0a100,100 0,1 1,200 0a100,100 0,1 1,-200 0"
+        android:fillColor="#FFF8E1" />
+    
+    <!-- Mountain/Steps (Levels) -->
+    <!-- Beginner (Small mountain) -->
+    <path
+        android:pathData="M40,140l30,-40l30,40z"
+        android:fillColor="#81C784" />
+    
+    <!-- Intermediate (Medium mountain) -->
+    <path
+        android:pathData="M90,140l35,-60l35,60z"
+        android:fillColor="#FFA726" />
+    
+    <!-- Professional (Tall mountain) -->
+    <path
+        android:pathData="M145,140l35,-80l35,80z"
+        android:fillColor="#FFC107" />
+    
+    <!-- Flag on top -->
+    <path
+        android:pathData="M180,60v-20"
+        android:strokeColor="#E65100"
+        android:strokeWidth="3"
+        android:strokeLineCap="round" />
+    
+    <path
+        android:pathData="M180,40h20l-10,8l10,7h-20z"
+        android:fillColor="#FF5722" />
+    
+    <!-- Stars (Achievement) -->
+    <path
+        android:pathData="M55,60l3,10l10,0l-8,6l3,10l-8,-6l-8,6l3,-10l-8,-6l10,0z"
+        android:fillColor="#FFD54F" />
+    
+    <path
+        android:pathData="M195,100l2,7l7,0l-5,4l2,7l-6,-4l-6,4l2,-7l-5,-4l7,0z"
+        android:fillColor="#FFD54F" />
+    
+    <!-- Path/Road to summit -->
+    <path
+        android:pathData="M20,160Q70,130 120,100T220,60"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="3"
+        android:fillColor="#00000000" />
+    
+    <!-- Person climbing (stick figure) -->
+    <path
+        android:pathData="M110,115m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"
+        android:fillColor="#2979FF" />
+    <path
+        android:pathData="M110,121v15"
+        android:strokeColor="#2979FF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M110,128l-8,8"
+        android:strokeColor="#2979FF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M110,128l8,-4"
+        android:strokeColor="#2979FF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M110,136l-6,10"
+        android:strokeColor="#2979FF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M110,136l6,10"
+        android:strokeColor="#2979FF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round" />
+</vector>

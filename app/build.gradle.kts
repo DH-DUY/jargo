@@ -20,11 +20,16 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = false
+            isDebuggable = true
         }
     }
     
@@ -92,6 +97,9 @@ dependencies {
     
     // Shimmer Effect (loading)
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+    
+    // Lottie Animations
+    implementation("com.airbnb.android:lottie:6.2.0")
     
     // Testing
     testImplementation("junit:junit:4.13.2")
