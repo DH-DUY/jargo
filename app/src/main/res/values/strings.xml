@@ -1,3 +1,105 @@
 <resources>
-    <string name="app_name">jargo</string>
+    <!-- App Name -->
+    <string name="app_name">JARGO</string>
+    <string name="app_tagline">Chinh phục từ vựng chuyên ngành</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_welcome">Chào mừng đến với JARGO!</string>
+    <string name="onboarding_subtitle">Học tiếng Anh chuyên ngành hiệu quả</string>
+    <string name="onboarding_select_field">Chọn chuyên ngành của bạn</string>
+    <string name="onboarding_select_level">Trình độ của bạn?</string>
+    <string name="btn_next">Tiếp theo</string>
+    <string name="btn_get_started">Bắt đầu</string>
+    <string name="btn_skip">Bỏ qua</string>
+    
+    <!-- Fields -->
+    <string name="field_it">Công nghệ thông tin</string>
+    <string name="field_it_desc">Lập trình, phần mềm, mạng máy tính</string>
+    <string name="field_medical">Y tế</string>
+    <string name="field_medical_desc">Bác sĩ, y tá, dược sĩ</string>
+    <string name="field_economics">Kinh tế</string>
+    <string name="field_economics_desc">Kinh doanh, tài chính, marketing</string>
+    
+    <!-- Levels -->
+    <string name="level_beginner">Người mới</string>
+    <string name="level_beginner_desc">Bắt đầu học từ cơ bản</string>
+    <string name="level_intermediate">Trung bình</string>
+    <string name="level_intermediate_desc">Đã có kiến thức nền tảng</string>
+    <string name="level_professional">Chuyên nghiệp</string>
+    <string name="level_professional_desc">Đang làm việc trong ngành</string>
+    
+    <!-- Home -->
+    <string name="home_title">Trang chủ</string>
+    <string name="home_welcome">Xin chào, %s!</string>
+    <string name="home_streak">Chuỗi học %d ngày</string>
+    <string name="home_xp">%d XP</string>
+    <string name="home_topics">Chủ đề</string>
+    <string name="home_continue_learning">Tiếp tục học</string>
+    
+    <!-- Progress -->
+    <string name="progress_title">Tiến độ</string>
+    <string name="progress_overall">Tổng quan</string>
+    <string name="progress_completed">Đã hoàn thành</string>
+    <string name="progress_in_progress">Đang học</string>
+    <string name="progress_locked">Chưa mở khóa</string>
+    <string name="progress_vocabulary_mastered">%d từ đã thuộc</string>
+    
+    <!-- Profile -->
+    <string name="profile_title">Hồ sơ</string>
+    <string name="profile_edit">Chỉnh sửa hồ sơ</string>
+    <string name="profile_settings">Cài đặt</string>
+    <string name="profile_logout">Đăng xuất</string>
+    <string name="profile_field">Chuyên ngành</string>
+    <string name="profile_level">Trình độ</string>
+    
+    <!-- Learning -->
+    <string name="learning_vocabulary">Từ vựng</string>
+    <string name="learning_pronunciation">Phát âm</string>
+    <string name="learning_meaning">Nghĩa</string>
+    <string name="learning_example">Ví dụ</string>
+    <string name="learning_next">Từ tiếp theo</string>
+    <string name="learning_previous">Từ trước</string>
+    <string name="learning_progress" formatted="false">%d/%d</string>
+    <string name="btn_play_audio">Phát âm thanh</string>
+    <string name="btn_start_quiz">Bắt đầu kiểm tra</string>
+    
+    <!-- Quiz -->
+    <string name="quiz_title">Kiểm tra</string>
+    <string name="quiz_question" formatted="false">Câu hỏi %d/%d</string>
+    <string name="quiz_select_answer">Chọn đáp án đúng</string>
+    <string name="quiz_correct">Chính xác!</string>
+    <string name="quiz_incorrect">Sai rồi!</string>
+    <string name="quiz_explanation">Giải thích</string>
+    <string name="quiz_score" formatted="false">Điểm số: %d/%d</string>
+    <string name="quiz_xp_earned">+%d XP</string>
+    <string name="btn_submit">Nộp bài</string>
+    <string name="btn_continue">Tiếp tục</string>
+    <string name="btn_finish">Hoàn thành</string>
+    <string name="btn_retry">Làm lại</string>
+    
+    <!-- Common -->
+    <string name="loading">Đang tải…</string>
+    <string name="error">Đã có lỗi xảy ra</string>
+    <string name="error_network">Không có kết nối mạng</string>
+    <string name="error_load_data">Không thể tải dữ liệu</string>
+    <string name="success">Thành công</string>
+    <string name="cancel">Hủy</string>
+    <string name="ok">OK</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="save">Lưu</string>
+    <string name="delete">Xóa</string>
+    <string name="edit">Sửa</string>
+    <string name="close">Đóng</string>
+    
+    <!-- Empty States -->
+    <string name="empty_topics">Chưa có chủ đề nào</string>
+    <string name="empty_lessons">Chưa có bài học</string>
+    <string name="empty_progress">Chưa có tiến độ</string>
+    
+    <!-- Dialogs -->
+    <string name="dialog_logout_title">Đăng xuất</string>
+    <string name="dialog_logout_message">Bạn có chắc muốn đăng xuất?</string>
+    <string name="dialog_exit_title">Thoát</string>
+    <string name="dialog_exit_message">Bạn có chắc muốn thoát?</string>
 </resources>
