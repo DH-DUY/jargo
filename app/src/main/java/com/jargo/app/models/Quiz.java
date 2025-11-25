@@ -16,12 +16,12 @@ public class Quiz {
     private String explanation;        // Giải thích đáp án
     private int points;                // Điểm cho câu hỏi này
 
-    // Constructor rỗng
+    // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Quiz() {
         this.options = new ArrayList<>();
     }
 
-    // Constructor đầy đủ
+    // Phương thức khởi tạo đầy đủ
     public Quiz(String quizId, String lessonId, String type, String question, 
                 List<String> options, int correctAnswer, String explanation, int points) {
         this.quizId = quizId;
@@ -34,7 +34,7 @@ public class Quiz {
         this.points = points;
     }
 
-    // Getters
+    // Phương thức lấy giá trị
     public String getQuizId() {
         return quizId;
     }
@@ -67,7 +67,7 @@ public class Quiz {
         return points;
     }
 
-    // Setters
+    // Phương thức thiết lập giá trị
     public void setQuizId(String quizId) {
         this.quizId = quizId;
     }
@@ -100,7 +100,7 @@ public class Quiz {
         this.points = points;
     }
 
-    // Utility methods
+    // Phương thức tiện ích
     public boolean isCorrect(int userAnswer) {
         return userAnswer == correctAnswer;
     }

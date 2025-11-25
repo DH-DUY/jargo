@@ -14,15 +14,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jargo">
+        
+        <!-- SplashActivity - Màn hình khởi động đầu tiên -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".activities.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- OnboardingActivity - Màn hình chọn chuyên ngành và trình độ -->
+        <activity
+            android:name=".activities.OnboardingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        
+        <!-- MainActivity - Màn hình chính của app -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+            
     </application>
 
 </manifest>

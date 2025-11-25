@@ -11,11 +11,11 @@ public class Progress {
     private long lastAccessed;          // Timestamp lần truy cập cuối
     private int vocabularyMastered;     // Số từ vựng đã thuộc
 
-    // Constructor rỗng
+    // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Progress() {
     }
 
-    // Constructor đầy đủ
+    // Phương thức khởi tạo đầy đủ
     public Progress(String userId, String topicId) {
         this.userId = userId;
         this.topicId = topicId;
@@ -25,7 +25,7 @@ public class Progress {
         this.vocabularyMastered = 0;
     }
 
-    // Getters
+    // Phương thức lấy giá trị
     public String getUserId() {
         return userId;
     }
@@ -50,7 +50,7 @@ public class Progress {
         return vocabularyMastered;
     }
 
-    // Setters
+    // Phương thức thiết lập giá trị
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -75,7 +75,7 @@ public class Progress {
         this.vocabularyMastered = vocabularyMastered;
     }
 
-    // Utility methods
+    // Phương thức tiện ích
     public void updateLastAccessed() {
         this.lastAccessed = System.currentTimeMillis();
     }

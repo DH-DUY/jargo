@@ -13,11 +13,11 @@ public class User {
     private int streak;
     private long createdAt;
 
-    // Constructor rỗng (Firebase yêu cầu)
+    // Phương thức khởi tạo rỗng (Firebase yêu cầu)
     public User() {
     }
 
-    // Constructor đầy đủ
+    // Phương thức khởi tạo đầy đủ
     public User(String userId, String name, String email, String field, String level) {
         this.userId = userId;
         this.name = name;
@@ -29,7 +29,7 @@ public class User {
         this.createdAt = System.currentTimeMillis();
     }
 
-    // Getters
+    // Phương thức lấy giá trị
     public String getUserId() {
         return userId;
     }
@@ -62,7 +62,7 @@ public class User {
         return createdAt;
     }
 
-    // Setters
+    // Phương thức thiết lập giá trị
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -95,7 +95,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    // Utility methods
+    // Phương thức tiện ích
     public void addXP(int xp) {
         this.totalXP += xp;
     }

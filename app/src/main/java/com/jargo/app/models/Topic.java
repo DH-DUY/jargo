@@ -13,11 +13,11 @@ public class Topic {
     private String description;
     private boolean isLocked;
 
-    // Constructor rỗng
+    // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Topic() {
     }
 
-    // Constructor đầy đủ
+    // Phương thức khởi tạo đầy đủ
     public Topic(String topicId, String name, String fieldId, String level, 
                  int order, int lessonCount, String description, boolean isLocked) {
         this.topicId = topicId;
@@ -30,7 +30,7 @@ public class Topic {
         this.isLocked = isLocked;
     }
 
-    // Getters
+    // Phương thức lấy giá trị
     public String getTopicId() {
         return topicId;
     }
@@ -63,7 +63,7 @@ public class Topic {
         return isLocked;
     }
 
-    // Setters
+    // Phương thức thiết lập giá trị
     public void setTopicId(String topicId) {
         this.topicId = topicId;
     }
@@ -96,7 +96,7 @@ public class Topic {
         isLocked = locked;
     }
 
-    // Utility methods
+    // Phương thức tiện ích
     public void unlock() {
         this.isLocked = false;
     }

@@ -14,12 +14,12 @@ public class Lesson {
     private int vocabularyCount;
     private List<Vocabulary> vocabularies;
 
-    // Constructor rỗng
+    // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Lesson() {
         this.vocabularies = new ArrayList<>();
     }
 
-    // Constructor đầy đủ
+    // Phương thức khởi tạo đầy đủ
     public Lesson(String lessonId, String topicId, String title, int order) {
         this.lessonId = lessonId;
         this.topicId = topicId;
@@ -29,7 +29,7 @@ public class Lesson {
         this.vocabularies = new ArrayList<>();
     }
 
-    // Getters
+    // Phương thức lấy giá trị
     public String getLessonId() {
         return lessonId;
     }
@@ -54,7 +54,7 @@ public class Lesson {
         return vocabularies;
     }
 
-    // Setters
+    // Phương thức thiết lập giá trị
     public void setLessonId(String lessonId) {
         this.lessonId = lessonId;
     }
@@ -80,7 +80,7 @@ public class Lesson {
         this.vocabularyCount = vocabularies != null ? vocabularies.size() : 0;
     }
 
-    // Utility methods
+    // Phương thức tiện ích
     public void addVocabulary(Vocabulary vocabulary) {
         if (this.vocabularies == null) {
             this.vocabularies = new ArrayList<>();

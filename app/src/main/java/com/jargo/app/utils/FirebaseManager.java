@@ -17,14 +17,14 @@ public class FirebaseManager {
     private final FirebaseAuth auth;
     private final FirebaseStorage storage;
     
-    // Private constructor
+    // Phương thức khởi tạo riêng (mẫu Singleton)
     private FirebaseManager() {
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
     }
     
-    // Get singleton instance
+    // Lấy thể hiện duy nhất (mẫu Singleton)
     public static synchronized FirebaseManager getInstance() {
         if (instance == null) {
             instance = new FirebaseManager();
@@ -32,7 +32,7 @@ public class FirebaseManager {
         return instance;
     }
     
-    // Get Database Reference
+    // Lấy tham chiếu cơ sở dữ liệu
     public DatabaseReference getDatabaseReference() {
         return database.getReference();
     }
@@ -41,28 +41,28 @@ public class FirebaseManager {
         return database.getReference(path);
     }
     
-    // Get Auth instance
+    // Lấy thể hiện xác thực
     public FirebaseAuth getAuth() {
         return auth;
     }
     
-    // Get current user
+    // Lấy thông tin người dùng hiện tại
     public FirebaseUser getCurrentUser() {
         return auth.getCurrentUser();
     }
     
-    // Check if user is logged in
+    // Kiểm tra người dùng đã đăng nhập hay chưa
     public boolean isUserLoggedIn() {
         return getCurrentUser() != null;
     }
     
-    // Get user ID
+    // Lấy mã số người dùng
     public String getUserId() {
         FirebaseUser user = getCurrentUser();
         return user != null ? user.getUid() : null;
     }
     
-    // Get Storage Reference
+    // Lấy tham chiếu kho lưu trữ
     public StorageReference getStorageReference() {
         return storage.getReference();
     }
@@ -71,7 +71,7 @@ public class FirebaseManager {
         return storage.getReference(path);
     }
     
-    // Database references by type
+    // Tham chiếu cơ sở dữ liệu theo loại
     public DatabaseReference getUsersRef() {
         return getDatabaseReference(Constants.DB_USERS);
     }
@@ -92,7 +92,7 @@ public class FirebaseManager {
         return getDatabaseReference(Constants.DB_QUIZZES);
     }
     
-    // User-specific references
+    // Tham chiếu riêng cho người dùng
     public DatabaseReference getUserRef(String userId) {
         return getUsersRef().child(userId);
     }
@@ -101,7 +101,7 @@ public class FirebaseManager {
         return getUserRef(userId).child(Constants.DB_PROGRESS);
     }
     
-    // Sign out
+    // Phương thức đăng xuất
     public void signOut() {
         auth.signOut();
     }

@@ -13,11 +13,11 @@ public class Vocabulary {
     private String audioUrl;           // Firebase Storage URL
     private String imageUrl;           // Optional image URL
 
-    // Constructor rỗng
+    // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Vocabulary() {
     }
 
-    // Constructor đầy đủ
+    // Phương thức khởi tạo đầy đủ
     public Vocabulary(String vocabId, String word, String pronunciation, 
                       String meaning, String example, String exampleTranslation) {
         this.vocabId = vocabId;
@@ -28,7 +28,7 @@ public class Vocabulary {
         this.exampleTranslation = exampleTranslation;
     }
 
-    // Getters
+    // Phương thức lấy giá trị
     public String getVocabId() {
         return vocabId;
     }
@@ -61,7 +61,7 @@ public class Vocabulary {
         return imageUrl;
     }
 
-    // Setters
+    // Phương thức thiết lập giá trị
     public void setVocabId(String vocabId) {
         this.vocabId = vocabId;
     }

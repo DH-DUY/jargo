@@ -9,11 +9,11 @@ public class Field {
     private String icon;
     private String description;
 
-    // Constructor rỗng
+    // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Field() {
     }
 
-    // Constructor đầy đủ
+    // Phương thức khởi tạo đầy đủ
     public Field(String fieldId, String name, String icon, String description) {
         this.fieldId = fieldId;
         this.name = name;
@@ -21,7 +21,7 @@ public class Field {
         this.description = description;
     }
 
-    // Getters
+    // Phương thức lấy giá trị
     public String getFieldId() {
         return fieldId;
     }
@@ -38,7 +38,7 @@ public class Field {
         return description;
     }
 
-    // Setters
+    // Phương thức thiết lập giá trị
     public void setFieldId(String fieldId) {
         this.fieldId = fieldId;
     }

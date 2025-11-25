@@ -23,7 +23,7 @@ public class SharedPrefsManager {
         return instance;
     }
     
-    // Save methods
+    // Phương thức lưu dữ liệu
     public void saveString(String key, String value) {
         prefs.edit().putString(key, value).apply();
     }
@@ -40,7 +40,7 @@ public class SharedPrefsManager {
         prefs.edit().putLong(key, value).apply();
     }
     
-    // Get methods
+    // Phương thức lấy dữ liệu
     public String getString(String key, String defaultValue) {
         return prefs.getString(key, defaultValue);
     }
@@ -57,7 +57,7 @@ public class SharedPrefsManager {
         return prefs.getLong(key, defaultValue);
     }
     
-    // User-specific methods
+    // Phương thức riêng cho người dùng
     public void saveUserId(String userId) {
         saveString(Constants.PREF_USER_ID, userId);
     }
@@ -114,12 +114,12 @@ public class SharedPrefsManager {
         return getBoolean(Constants.PREF_IS_LOGGED_IN, false);
     }
     
-    // Clear all data
+    // Phương thức xóa toàn bộ dữ liệu
     public void clearAll() {
         prefs.edit().clear().apply();
     }
     
-    // Logout - clear user data but keep app settings
+    // Phương thức đăng xuất - xóa dữ liệu người dùng nhưng giữ cài đặt ứng dụng
     public void logout() {
         prefs.edit()
             .remove(Constants.PREF_USER_ID)
