@@ -46,13 +46,17 @@ public class SplashActivity extends AppCompatActivity {
     private void navigateToNextScreen() {
         Intent intent;
 
-        // Kiểm tra đã hoàn thành onboarding chưa
-        if (prefsManager.isFirstLaunch()) {
-            // Lần đầu mở app → đi đến OnboardingActivity
-            intent = new Intent(this, OnboardingActivity.class);
+        // Kiểm tra user đã đăng nhập chưa
+        if (prefsManager.isLoggedIn()) {
+            // Đã đăng nhập → Kiểm tra onboarding
+            if (prefsManager.isFirstLaunch()) {
+                intent = new Intent(this, OnboardingActivity.class);
+            } else {
+                intent = new Intent(this, MainActivity.class);
+            }
         } else {
-            // Đã hoàn thành onboarding → đi đến MainActivity
-            intent = new Intent(this, MainActivity.class);
+            // Chưa đăng nhập → Đi đến màn hình chọn phương thức auth
+            intent = new Intent(this, AuthenticationActivity.class);
         }
 
         startActivity(intent);

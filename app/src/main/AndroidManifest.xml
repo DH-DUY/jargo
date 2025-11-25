@@ -25,6 +25,12 @@
             </intent-filter>
         </activity>
         
+        <!-- AuthenticationActivity - Màn hình chọn phương thức đăng nhập -->
+        <activity
+            android:name=".activities.AuthenticationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        
         <!-- OnboardingActivity - Màn hình chọn chuyên ngành và trình độ -->
         <activity
             android:name=".activities.OnboardingActivity"
@@ -58,6 +64,18 @@
         <activity
             android:name=".activities.ResultActivity"
             android:exported="false" />
+        
+        <!-- LoginActivity - Đăng nhập -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        
+        <!-- RegisterActivity - Đăng ký tài khoản -->
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
             
     </application>
 

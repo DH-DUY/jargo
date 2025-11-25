@@ -64,6 +64,9 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-analytics")
     
+    // Google Play Services (for Google Sign-In)
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    
     // RecyclerView & ViewPager2
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.viewpager2:viewpager2:1.1.0")

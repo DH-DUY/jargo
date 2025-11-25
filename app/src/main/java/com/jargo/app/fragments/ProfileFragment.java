@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.jargo.app.R;
+import com.jargo.app.activities.LoginActivity;
 import com.jargo.app.activities.OnboardingActivity;
+import com.jargo.app.activities.RegisterActivity;
 import com.jargo.app.utils.Constants;
 import com.jargo.app.utils.FirebaseManager;
 import com.jargo.app.utils.SharedPrefsManager;
@@ -25,6 +28,10 @@ public class ProfileFragment extends Fragment {
     private TextView tvEmail;
     private TextView tvField;
     private TextView tvLevel;
+    private LinearLayout layoutGuestActions;
+    private Button btnCreateAccount;
+    private Button btnSignIn;
+    private Button btnLogout;
 
     private SharedPrefsManager prefsManager;
     private FirebaseManager firebaseManager;
@@ -46,22 +53,58 @@ public class ProfileFragment extends Fragment {
         tvEmail = view.findViewById(R.id.tvEmail);
         tvField = view.findViewById(R.id.tvField);
         tvLevel = view.findViewById(R.id.tvLevel);
-        Button btnLogout = view.findViewById(R.id.btnLogout);
+        layoutGuestActions = view.findViewById(R.id.layoutGuestActions);
+        btnCreateAccount = view.findViewById(R.id.btnCreateAccount);
+        btnSignIn = view.findViewById(R.id.btnSignIn);
+        btnLogout = view.findViewById(R.id.btnLogout);
 
         // Load user info
         loadUserInfo();
 
-        // Logout button
+        // Button listeners
+        btnCreateAccount.setOnClickListener(v -> goToRegister());
+        btnSignIn.setOnClickListener(v -> goToLogin());
         btnLogout.setOnClickListener(v -> logout());
 
         return view;
     }
 
     private void loadUserInfo() {
-        tvUserName.setText(prefsManager.getUserName());
-        tvEmail.setText(prefsManager.getUserEmail());
+        // Check if user is authenticated
+        boolean isAuthenticated = firebaseManager.isUserLoggedIn();
+        
+        if (isAuthenticated) {
+            // Real user - show user info and logout button
+            tvUserName.setText(prefsManager.getUserName());
+            tvEmail.setText(prefsManager.getUserEmail());
+            layoutGuestActions.setVisibility(View.GONE);
+            btnLogout.setVisibility(View.VISIBLE);
+        } else {
+            // Guest user - show login/register buttons
+            tvUserName.setText(R.string.profile_guest);
+            tvEmail.setText(R.string.profile_create_account);
+            layoutGuestActions.setVisibility(View.VISIBLE);
+            btnLogout.setVisibility(View.GONE);
+        }
+        
         tvField.setText(getFieldName(prefsManager.getUserField()));
         tvLevel.setText(getLevelName(prefsManager.getUserLevel()));
+    }
+    
+    /**
+     * Đi đến màn hình Login
+     */
+    private void goToLogin() {
+        Intent intent = new Intent(requireContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+    
+    /**
+     * Đi đến màn hình Register
+     */
+    private void goToRegister() {
+        Intent intent = new Intent(requireContext(), RegisterActivity.class);
+        startActivity(intent);
     }
 
     private String getFieldName(String fieldId) {
