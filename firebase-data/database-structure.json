@@ -1,0 +1,34 @@
+{
+  "fields": {
+    "it": {
+      "fieldId": "it",
+      "name": "Công nghệ thông tin",
+      "nameEn": "Information Technology",
+      "description": "Học từ vựng tiếng Anh chuyên ngành IT",
+      "icon": "💻",
+      "topicCount": 0
+    },
+    "medical": {
+      "fieldId": "medical",
+      "name": "Y tế",
+      "nameEn": "Medical",
+      "description": "Học từ vựng tiếng Anh chuyên ngành Y tế",
+      "icon": "🏥",
+      "topicCount": 0
+    },
+    "economics": {
+      "fieldId": "economics",
+      "name": "Kinh tế",
+      "nameEn": "Economics",
+      "description": "Học từ vựng tiếng Anh chuyên ngành Kinh tế",
+      "icon": "💼",
+      "topicCount": 0
+    }
+  },
+  "topics": {},
+  "lessons": {},
+  "vocabularies": {},
+  "quizzes": {},
+  "users": {},
+  "progress": {}
+}
