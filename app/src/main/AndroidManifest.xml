@@ -36,6 +36,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        
+        <!-- LessonListActivity - Danh sách bài học -->
+        <activity
+            android:name=".activities.LessonListActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
             
     </application>
 

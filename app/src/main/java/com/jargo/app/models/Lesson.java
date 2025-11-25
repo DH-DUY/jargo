@@ -10,8 +10,12 @@ public class Lesson {
     private String lessonId;
     private String topicId;
     private String title;
+    private String titleEn;
+    private String description;
     private int order;
+    private int orderIndex;
     private int vocabularyCount;
+    private boolean isCompleted;
     private List<Vocabulary> vocabularies;
 
     // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
@@ -42,6 +46,22 @@ public class Lesson {
         return title;
     }
 
+    public String getTitleEn() {
+        return titleEn;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getOrderIndex() {
+        return orderIndex > 0 ? orderIndex : order;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
     public int getOrder() {
         return order;
     }
@@ -65,6 +85,22 @@ public class Lesson {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setTitleEn(String titleEn) {
+        this.titleEn = titleEn;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 
     public void setOrder(int order) {

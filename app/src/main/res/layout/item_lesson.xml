@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_medium"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_medium">
+
+        <!-- Lesson Number Circle -->
+        <TextView
+            android:id="@+id/tvLessonNumber"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/button_primary"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Lesson Title (Vietnamese) -->
+        <TextView
+            android:id="@+id/tvLessonTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_title"
+            android:textColor="@color/text_primary"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toStartOf="@id/tvCompletedIndicator"
+            app:layout_constraintStart_toEndOf="@id/tvLessonNumber"
+            app:layout_constraintTop_toTopOf="@id/tvLessonNumber"
+            tools:text="Biến và Kiểu dữ liệu" />
+
+        <!-- Completed Indicator -->
+        <TextView
+            android:id="@+id/tvCompletedIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:text="✅"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <!-- Lesson Title (English) -->
+        <TextView
+            android:id="@+id/tvLessonTitleEn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/text_secondary"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="@id/tvLessonTitle"
+            app:layout_constraintStart_toStartOf="@id/tvLessonTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvLessonTitle"
+            tools:text="Variables and Data Types" />
+
+        <!-- Vocabulary Count -->
+        <TextView
+            android:id="@+id/tvVocabCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/text_hint"
+            app:layout_constraintBottom_toBottomOf="@id/tvLessonNumber"
+            app:layout_constraintEnd_toEndOf="@id/tvLessonTitle"
+            app:layout_constraintStart_toStartOf="@id/tvLessonTitle"
+            tools:text="5 từ vựng" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

@@ -102,4 +102,9 @@
     <string name="dialog_logout_message">Bạn có chắc muốn đăng xuất?</string>
     <string name="dialog_exit_title">Thoát</string>
     <string name="dialog_exit_message">Bạn có chắc muốn thoát?</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Học tập</string>
+    <string name="nav_progress">Tiến độ</string>
+    <string name="nav_profile">Cá nhân</string>
 </resources>

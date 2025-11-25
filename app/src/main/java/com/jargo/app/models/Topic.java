@@ -6,10 +6,13 @@ package com.jargo.app.models;
 public class Topic {
     private String topicId;
     private String name;
+    private String nameEn;
     private String fieldId;
     private String level;
     private int order;
+    private int orderIndex;
     private int lessonCount;
+    private int totalVocabularies;
     private String description;
     private boolean isLocked;
 
@@ -37,6 +40,18 @@ public class Topic {
 
     public String getName() {
         return name;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public int getOrderIndex() {
+        return orderIndex > 0 ? orderIndex : order;
+    }
+
+    public int getTotalVocabularies() {
+        return totalVocabularies;
     }
 
     public String getFieldId() {
@@ -70,6 +85,18 @@ public class Topic {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
+    }
+
+    public void setOrderIndex(int orderIndex) {
+        this.orderIndex = orderIndex;
+    }
+
+    public void setTotalVocabularies(int totalVocabularies) {
+        this.totalVocabularies = totalVocabularies;
     }
 
     public void setFieldId(String fieldId) {
