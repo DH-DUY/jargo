@@ -6,10 +6,14 @@ package com.jargo.app.models;
 public class Progress {
     private String userId;
     private String topicId;
+    private String lessonId;            // ID bài học
     private boolean completed;
     private int score;                  // Điểm số (%)
+    private int quizScore;              // Điểm quiz
     private long lastAccessed;          // Timestamp lần truy cập cuối
+    private long completedAt;           // Timestamp hoàn thành
     private int vocabularyMastered;     // Số từ vựng đã thuộc
+    private int xp;                     // XP earned
 
     // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Progress() {
@@ -50,6 +54,22 @@ public class Progress {
         return vocabularyMastered;
     }
 
+    public String getLessonId() {
+        return lessonId;
+    }
+
+    public int getQuizScore() {
+        return quizScore;
+    }
+
+    public long getCompletedAt() {
+        return completedAt;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
     // Phương thức thiết lập giá trị
     public void setUserId(String userId) {
         this.userId = userId;
@@ -73,6 +93,22 @@ public class Progress {
 
     public void setVocabularyMastered(int vocabularyMastered) {
         this.vocabularyMastered = vocabularyMastered;
+    }
+
+    public void setLessonId(String lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public void setQuizScore(int quizScore) {
+        this.quizScore = quizScore;
+    }
+
+    public void setCompletedAt(long completedAt) {
+        this.completedAt = completedAt;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
     }
 
     // Phương thức tiện ích

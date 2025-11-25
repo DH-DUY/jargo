@@ -20,7 +20,6 @@ import com.jargo.app.utils.SharedPrefsManager;
  */
 public class FieldSelectionFragment extends Fragment {
 
-    private RadioGroup radioGroupFields;
     private SharedPrefsManager prefsManager;
     private String selectedField = Constants.FIELD_IT; // Mặc định chọn IT
 
@@ -40,7 +39,7 @@ public class FieldSelectionFragment extends Fragment {
         prefsManager = SharedPrefsManager.getInstance(requireContext());
 
         // Khởi tạo views
-        radioGroupFields = view.findViewById(R.id.radioGroupFields);
+        RadioGroup radioGroupFields = view.findViewById(R.id.radioGroupFields);
 
         // Mặc định chọn IT
         RadioButton rbIT = view.findViewById(R.id.rbIT);

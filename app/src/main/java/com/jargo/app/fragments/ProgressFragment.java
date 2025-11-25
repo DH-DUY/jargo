@@ -21,8 +21,6 @@ public class ProgressFragment extends Fragment {
     private TextView tvLessonsCompleted;
     private TextView tvVocabsLearned;
 
-    private SharedPrefsManager prefsManager;
-
     public ProgressFragment() {
         // Required empty public constructor
     }
@@ -32,7 +30,7 @@ public class ProgressFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
 
-        prefsManager = SharedPrefsManager.getInstance(requireContext());
+        SharedPrefsManager prefsManager = SharedPrefsManager.getInstance(requireContext());
 
         // Bind views
         tvTotalXP = view.findViewById(R.id.tvTotalXP);

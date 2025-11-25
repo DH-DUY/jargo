@@ -4,33 +4,27 @@ package com.jargo.app.models;
  * Vocabulary model - Từ vựng
  */
 public class Vocabulary {
-    private String vocabId;
-    private String word;
-    private String pronunciation;      // IPA notation
-    private String meaning;            // Vietnamese translation
-    private String example;            // Example sentence in English
-    private String exampleTranslation; // Example translation in Vietnamese
-    private String audioUrl;           // Firebase Storage URL
-    private String imageUrl;           // Optional image URL
+    private String vocabularyId;       // ID từ vựng
+    private String lessonId;           // ID bài học
+    private String word;               // Từ tiếng Anh
+    private String pronunciation;      // Phiên âm IPA
+    private String partOfSpeech;       // Từ loại (noun, verb, adj...)
+    private String meaning;            // Nghĩa tiếng Việt
+    private String definition;         // Định nghĩa tiếng Anh
+    private String exampleEn;          // Ví dụ tiếng Anh
+    private String exampleVi;          // Ví dụ tiếng Việt
+    private String imageUrl;           // URL hình ảnh
+    private String audioUrl;           // URL audio phát âm
+    private String level;              // Cấp độ (beginner/intermediate/professional)
+
 
     // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Vocabulary() {
     }
 
-    // Phương thức khởi tạo đầy đủ
-    public Vocabulary(String vocabId, String word, String pronunciation, 
-                      String meaning, String example, String exampleTranslation) {
-        this.vocabId = vocabId;
-        this.word = word;
-        this.pronunciation = pronunciation;
-        this.meaning = meaning;
-        this.example = example;
-        this.exampleTranslation = exampleTranslation;
-    }
-
     // Phương thức lấy giá trị
-    public String getVocabId() {
-        return vocabId;
+     public String getVocabularyId() {
+        return vocabularyId;
     }
 
     public String getWord() {
@@ -45,14 +39,6 @@ public class Vocabulary {
         return meaning;
     }
 
-    public String getExample() {
-        return example;
-    }
-
-    public String getExampleTranslation() {
-        return exampleTranslation;
-    }
-
     public String getAudioUrl() {
         return audioUrl;
     }
@@ -61,36 +47,56 @@ public class Vocabulary {
         return imageUrl;
     }
 
+    public String getLessonId() {
+        return lessonId;
+    }
+
+    public String getPartOfSpeech() {
+        return partOfSpeech;
+    }
+
+    public String getDefinition() {
+        return definition;
+    }
+
+    public String getExampleEn() {
+        return exampleEn;
+    }
+
+    public String getExampleVi() {
+        return exampleVi;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
     // Phương thức thiết lập giá trị
-    public void setVocabId(String vocabId) {
-        this.vocabId = vocabId;
+        public void setVocabularyId(String vocabularyId) {
+        this.vocabularyId = vocabularyId;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setLessonId(String lessonId) {
+        this.lessonId = lessonId;
     }
 
-    public void setPronunciation(String pronunciation) {
-        this.pronunciation = pronunciation;
+    public void setPartOfSpeech(String partOfSpeech) {
+        this.partOfSpeech = partOfSpeech;
     }
 
-    public void setMeaning(String meaning) {
-        this.meaning = meaning;
+    public void setDefinition(String definition) {
+        this.definition = definition;
     }
 
-    public void setExample(String example) {
-        this.example = example;
+    public void setExampleEn(String exampleEn) {
+        this.exampleEn = exampleEn;
     }
 
-    public void setExampleTranslation(String exampleTranslation) {
-        this.exampleTranslation = exampleTranslation;
+    public void setExampleVi(String exampleVi) {
+        this.exampleVi = exampleVi;
     }
 
-    public void setAudioUrl(String audioUrl) {
-        this.audioUrl = audioUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

@@ -19,7 +19,6 @@ import com.jargo.app.utils.SharedPrefsManager;
  */
 public class LevelSelectionFragment extends Fragment {
 
-    private RadioGroup radioGroupLevels;
     private SharedPrefsManager prefsManager;
     private String selectedLevel = Constants.LEVEL_BEGINNER; // Mặc định chọn Beginner
 
@@ -39,7 +38,7 @@ public class LevelSelectionFragment extends Fragment {
         prefsManager = SharedPrefsManager.getInstance(requireContext());
 
         // Khởi tạo views
-        radioGroupLevels = view.findViewById(R.id.radioGroupLevels);
+        RadioGroup radioGroupLevels = view.findViewById(R.id.radioGroupLevels);
 
         // Mặc định chọn Beginner
         RadioButton rbBeginner = view.findViewById(R.id.rbBeginner);

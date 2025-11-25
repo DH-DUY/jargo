@@ -20,7 +20,7 @@
             android:layout_height="40dp"
             android:background="@drawable/button_primary"
             android:gravity="center"
-            android:text="1"
+            tools:text="1"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_title"
             android:textStyle="bold"
@@ -55,7 +55,8 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
         <!-- Lesson Title (English) -->
         <TextView
@@ -77,12 +78,11 @@
             android:id="@+id/tvVocabCount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
+            android:textColor="#757575"
             android:textSize="@dimen/text_size_small"
-            android:textColor="@color/text_hint"
-            app:layout_constraintBottom_toBottomOf="@id/tvLessonNumber"
             app:layout_constraintEnd_toEndOf="@id/tvLessonTitle"
             app:layout_constraintStart_toStartOf="@id/tvLessonTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvLessonTitleEn"
             tools:text="5 từ vựng" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

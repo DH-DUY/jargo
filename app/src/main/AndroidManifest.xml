@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -42,6 +41,23 @@
             android:name=".activities.LessonListActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
+        
+        <!-- LearningActivity - Học từ vựng với flashcards -->
+        <activity
+            android:name=".activities.LearningActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.LessonListActivity" />
+        
+        <!-- QuizActivity - Làm quiz -->
+        <activity
+            android:name=".activities.QuizActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.LearningActivity" />
+        
+        <!-- ResultActivity - Kết quả quiz -->
+        <activity
+            android:name=".activities.ResultActivity"
+            android:exported="false" />
             
     </application>
 

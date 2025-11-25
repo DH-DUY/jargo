@@ -31,18 +31,27 @@
     <!-- Home -->
     <string name="home_title">Trang chủ</string>
     <string name="home_welcome">Xin chào, %s!</string>
-    <string name="home_streak">Chuỗi học %d ngày</string>
-    <string name="home_xp">%d XP</string>
+    <string name="home_default_username">User</string>
+    <string name="home_streak">%d 🔥</string>
+    <string name="home_xp">%d ⭐</string>
     <string name="home_topics">Chủ đề</string>
     <string name="home_continue_learning">Tiếp tục học</string>
     
     <!-- Progress -->
-    <string name="progress_title">Tiến độ</string>
+    <string name="progress_title">Tiến độ học tập</string>
     <string name="progress_overall">Tổng quan</string>
     <string name="progress_completed">Đã hoàn thành</string>
     <string name="progress_in_progress">Đang học</string>
     <string name="progress_locked">Chưa mở khóa</string>
     <string name="progress_vocabulary_mastered">%d từ đã thuộc</string>
+    <string name="progress_total_xp">Tổng XP</string>
+    <string name="progress_streak">Streak</string>
+    <string name="progress_lessons_completed">Bài học đã hoàn thành</string>
+    <string name="progress_vocabs_learned">Từ vựng đã học</string>
+    <string name="progress_xp_format">%d XP</string>
+    <string name="progress_streak_format">%d ngày 🔥</string>
+    <string name="progress_lessons_format">%d bài học</string>
+    <string name="progress_vocabs_format">%d từ vựng</string>
     
     <!-- Profile -->
     <string name="profile_title">Hồ sơ</string>
@@ -57,25 +66,56 @@
     <string name="learning_pronunciation">Phát âm</string>
     <string name="learning_meaning">Nghĩa</string>
     <string name="learning_example">Ví dụ</string>
-    <string name="learning_next">Từ tiếp theo</string>
-    <string name="learning_previous">Từ trước</string>
-    <string name="learning_progress" formatted="false">%d/%d</string>
+    <string name="learning_example_label">Ví dụ:</string>
+    <string name="learning_tap_to_flip">👆 Chạm để lật</string>
+    <string name="learning_next">Tiếp ▶</string>
+    <string name="learning_previous">◀ Trước</string>
+    <string name="learning_complete">Hoàn thành</string>
+    <string name="learning_progress" formatted="false">%d / %d</string>
     <string name="btn_play_audio">Phát âm thanh</string>
     <string name="btn_start_quiz">Bắt đầu kiểm tra</string>
     
+    <!-- Accessibility -->
+    <string name="cd_previous_word">Từ trước đó</string>
+    <string name="cd_next_word">Từ tiếp theo</string>
+    <string name="cd_complete_lesson">Hoàn thành bài học</string>
+    
     <!-- Quiz -->
     <string name="quiz_title">Kiểm tra</string>
-    <string name="quiz_question" formatted="false">Câu hỏi %d/%d</string>
+    <string name="quiz_question" formatted="false">Câu %d/%d</string>
     <string name="quiz_select_answer">Chọn đáp án đúng</string>
+    <string name="quiz_answer_hint">Nhập đáp án…</string>
     <string name="quiz_correct">Chính xác!</string>
     <string name="quiz_incorrect">Sai rồi!</string>
     <string name="quiz_explanation">Giải thích</string>
     <string name="quiz_score" formatted="false">Điểm số: %d/%d</string>
     <string name="quiz_xp_earned">+%d XP</string>
+    <string name="btn_check_answer">Kiểm tra</string>
+    <string name="btn_next_question">Câu tiếp theo ▶</string>
     <string name="btn_submit">Nộp bài</string>
     <string name="btn_continue">Tiếp tục</string>
     <string name="btn_finish">Hoàn thành</string>
     <string name="btn_retry">Làm lại</string>
+    
+    <!-- Quiz Accessibility -->
+    <string name="cd_check_answer">Kiểm tra đáp án</string>
+    <string name="cd_next_question">Chuyển sang câu hỏi tiếp theo</string>
+    
+    <!-- Result Screen -->
+    <string name="result_congrats">🎉 Hoàn thành!</string>
+    <string name="result_congrats_perfect">🎉 Xuất sắc!</string>
+    <string name="result_congrats_great">👏 Tuyệt vời!</string>
+    <string name="result_congrats_good">👍 Khá tốt!</string>
+    <string name="result_congrats_keepgoing">💪 Cố gắng lên!</string>
+    <string name="result_score_label">Điểm số</string>
+    <string name="result_accuracy_label">Độ chính xác</string>
+    <string name="result_xp_label">XP nhận được</string>
+    <string name="result_streak_label">Streak</string>
+    <string name="result_score_format" formatted="false">%d/%d</string>
+    <string name="result_accuracy_format">%d%%</string>
+    <string name="result_xp_format">+%d XP</string>
+    <string name="result_streak_format">🔥 %d ngày</string>
+    <string name="result_streak_bonus">Streak bonus: +%d XP</string>
     
     <!-- Common -->
     <string name="loading">Đang tải…</string>

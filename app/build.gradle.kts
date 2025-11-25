@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.jargo.app"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.jargo.app"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -37,12 +37,12 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -50,8 +50,8 @@ dependencies {
     // AndroidX Core
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-    implementation("androidx.activity:activity:1.8.0")
-    implementation("androidx.core:core:1.12.0")
+    implementation("androidx.activity:activity:1.9.3")
+    implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.cardview:cardview:1.0.0")
     
     // Material Design
@@ -65,27 +65,27 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     
     // RecyclerView & ViewPager2
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
     
     // ViewModel & LiveData
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-runtime:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.8.7")
     
     // Navigation Component
     implementation("androidx.navigation:navigation-fragment:2.7.6")
     implementation("androidx.navigation:navigation-ui:2.7.6")
     
     // Image Loading - Glide
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("com.github.bumptech.glide:glide:5.0.5")
+    annotationProcessor("com.github.bumptech.glide:compiler:5.0.5")
     
     // Audio Player - ExoPlayer
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     
     // JSON Processing
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.code.gson:gson:2.13.2")
     
     // Shimmer Effect (loading)
     implementation("com.facebook.shimmer:shimmer:0.5.0")

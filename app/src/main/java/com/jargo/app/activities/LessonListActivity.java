@@ -1,5 +1,6 @@
 package com.jargo.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,15 +28,12 @@ import java.util.List;
  */
 public class LessonListActivity extends AppCompatActivity implements LessonAdapter.OnLessonClickListener {
 
-    private Toolbar toolbar;
-    private RecyclerView recyclerViewLessons;
     private LessonAdapter lessonAdapter;
     private ProgressBar progressBar;
     private View emptyState;
 
     private FirebaseManager firebaseManager;
     private String topicId;
-    private String topicName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +44,11 @@ public class LessonListActivity extends AppCompatActivity implements LessonAdapt
 
         // Get data from Intent
         topicId = getIntent().getStringExtra(Constants.EXTRA_TOPIC_ID);
-        topicName = getIntent().getStringExtra(Constants.EXTRA_TOPIC_NAME);
+        String topicName = getIntent().getStringExtra(Constants.EXTRA_TOPIC_NAME);
 
         // Bind views
-        toolbar = findViewById(R.id.toolbar);
-        recyclerViewLessons = findViewById(R.id.recyclerViewLessons);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        RecyclerView recyclerViewLessons = findViewById(R.id.recyclerViewLessons);
         progressBar = findViewById(R.id.progressBar);
         emptyState = findViewById(R.id.emptyState);
 
@@ -118,10 +116,11 @@ public class LessonListActivity extends AppCompatActivity implements LessonAdapt
 
     @Override
     public void onLessonClick(Lesson lesson) {
-        // TODO: Mở LearningActivity (Phase 4)
-        Toast.makeText(this,
-                "Sắp mở bài: " + lesson.getTitle(),
-                Toast.LENGTH_SHORT).show();
+        // Mở LearningActivity
+        Intent intent = new Intent(this, LearningActivity.class);
+        intent.putExtra(Constants.EXTRA_LESSON_ID, lesson.getLessonId());
+        intent.putExtra(Constants.EXTRA_LESSON_TITLE, lesson.getTitle());
+        startActivity(intent);
     }
 
     @Override

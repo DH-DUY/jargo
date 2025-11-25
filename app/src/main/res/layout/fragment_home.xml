@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:text="User"
+                tools:text="User"
                 android:textSize="@dimen/text_size_title"
                 android:textColor="@color/text_primary"
                 android:textStyle="bold"
@@ -51,7 +51,7 @@
                 android:id="@+id/tvFieldName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Công nghệ thông tin"
+                tools:text="Công nghệ thông tin"
                 android:textSize="@dimen/text_size_small"
                 android:textColor="@color/text_secondary"
                 app:layout_constraintBottom_toBottomOf="@id/viewAvatar"
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_medium"
-                android:text="0 🔥"
+                tools:text="0 🔥"
                 android:textSize="@dimen/text_size_body"
                 android:textColor="@color/text_primary"
                 android:textStyle="bold"
@@ -76,7 +76,7 @@
                 android:id="@+id/tvXP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 ⭐"
+                tools:text="0 ⭐"
                 android:textSize="@dimen/text_size_body"
                 android:textColor="@color/primary"
                 android:textStyle="bold"
@@ -109,8 +109,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Empty State -->
     <LinearLayout
@@ -130,7 +129,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="📚"
-            android:textSize="64sp" />
+            android:textSize="64sp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:layout_width="wrap_content"

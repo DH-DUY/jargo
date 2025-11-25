@@ -25,7 +25,6 @@ public class ProfileFragment extends Fragment {
     private TextView tvEmail;
     private TextView tvField;
     private TextView tvLevel;
-    private Button btnLogout;
 
     private SharedPrefsManager prefsManager;
     private FirebaseManager firebaseManager;
@@ -47,7 +46,7 @@ public class ProfileFragment extends Fragment {
         tvEmail = view.findViewById(R.id.tvEmail);
         tvField = view.findViewById(R.id.tvField);
         tvLevel = view.findViewById(R.id.tvLevel);
-        btnLogout = view.findViewById(R.id.btnLogout);
+        Button btnLogout = view.findViewById(R.id.btnLogout);
 
         // Load user info
         loadUserInfo();

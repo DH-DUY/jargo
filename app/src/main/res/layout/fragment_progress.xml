@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -16,7 +17,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tiến độ học tập"
+            android:text="@string/progress_title"
             android:textSize="@dimen/text_size_heading"
             android:textColor="@color/text_primary"
             android:textStyle="bold"
@@ -53,7 +54,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tổng XP"
+                        android:text="@string/progress_total_xp"
                         android:textSize="@dimen/text_size_body"
                         android:textColor="@color/text_secondary" />
 
@@ -61,7 +62,7 @@
                         android:id="@+id/tvTotalXP"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0 XP"
+                        tools:text="0 XP"
                         android:textSize="@dimen/text_size_title"
                         android:textColor="@color/primary"
                         android:textStyle="bold" />
@@ -79,7 +80,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Streak"
+                        android:text="@string/progress_streak"
                         android:textSize="@dimen/text_size_body"
                         android:textColor="@color/text_secondary" />
 
@@ -87,7 +88,7 @@
                         android:id="@+id/tvStreak"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0 ngày 🔥"
+                        tools:text="0 ngày 🔥"
                         android:textSize="@dimen/text_size_title"
                         android:textColor="@color/text_primary"
                         android:textStyle="bold" />
@@ -105,7 +106,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Bài học đã hoàn thành"
+                        android:text="@string/progress_lessons_completed"
                         android:textSize="@dimen/text_size_body"
                         android:textColor="@color/text_secondary" />
 
@@ -113,7 +114,7 @@
                         android:id="@+id/tvLessonsCompleted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0 bài học"
+                        tools:text="0 bài học"
                         android:textSize="@dimen/text_size_title"
                         android:textColor="@color/text_primary"
                         android:textStyle="bold" />
@@ -130,7 +131,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Từ vựng đã học"
+                        android:text="@string/progress_vocabs_learned"
                         android:textSize="@dimen/text_size_body"
                         android:textColor="@color/text_secondary" />
 
@@ -138,7 +139,7 @@
                         android:id="@+id/tvVocabsLearned"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0 từ vựng"
+                        tools:text="0 từ vựng"
                         android:textSize="@dimen/text_size_title"
                         android:textColor="@color/text_primary"
                         android:textStyle="bold" />
@@ -154,10 +155,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xlarge"
             android:text="📊"
+            android:textColor="#78909C"
             android:textSize="64sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardStats" />
+            app:layout_constraintTop_toBottomOf="@id/cardStats"
+            tools:ignore="HardcodedText,TextContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

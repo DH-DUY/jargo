@@ -12,9 +12,12 @@ public class Quiz {
     private String type;               // multiple_choice, fill_blank, listening
     private String question;
     private List<String> options;      // Các đáp án lựa chọn
-    private int correctAnswer;         // Index của đáp án đúng (0-based)
+    private String correctAnswer;      // Đáp án đúng (String)
     private String explanation;        // Giải thích đáp án
     private int points;                // Điểm cho câu hỏi này
+    private int xpReward;
+    private String explanationVi;
+    private List<String> alternativeAnswers;
 
     // Phương thức khởi tạo rỗng (bắt buộc cho Firebase)
     public Quiz() {
@@ -23,7 +26,7 @@ public class Quiz {
 
     // Phương thức khởi tạo đầy đủ
     public Quiz(String quizId, String lessonId, String type, String question, 
-                List<String> options, int correctAnswer, String explanation, int points) {
+                List<String> options, String correctAnswer, String explanation, int points) {
         this.quizId = quizId;
         this.lessonId = lessonId;
         this.type = type;
@@ -55,7 +58,7 @@ public class Quiz {
         return options;
     }
 
-    public int getCorrectAnswer() {
+    public String getCorrectAnswer() {
         return correctAnswer;
     }
 
@@ -65,6 +68,16 @@ public class Quiz {
 
     public int getPoints() {
         return points;
+    }
+
+    public int getXpReward() { 
+    return xpReward; 
+    }
+    public String getExplanationVi() { 
+    return explanationVi; 
+    }
+    public List<String> getAlternativeAnswers() { 
+    return alternativeAnswers; 
     }
 
     // Phương thức thiết lập giá trị
@@ -88,7 +101,7 @@ public class Quiz {
         this.options = options;
     }
 
-    public void setCorrectAnswer(int correctAnswer) {
+    public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 
@@ -100,16 +113,24 @@ public class Quiz {
         this.points = points;
     }
 
+    public void setXpReward(int xpReward) { 
+    this.xpReward = xpReward; 
+    }
+    public void setExplanationVi(String explanationVi) { 
+    this.explanationVi = explanationVi; 
+    }
+    public void setAlternativeAnswers(List<String> alternativeAnswers) { 
+    this.alternativeAnswers = alternativeAnswers; 
+    }
+
     // Phương thức tiện ích
-    public boolean isCorrect(int userAnswer) {
-        return userAnswer == correctAnswer;
+    public boolean isCorrect(String userAnswer) {
+        if (userAnswer == null || correctAnswer == null) return false;
+        return userAnswer.trim().equalsIgnoreCase(correctAnswer.trim());
     }
 
     public String getCorrectAnswerText() {
-        if (options != null && correctAnswer >= 0 && correctAnswer < options.size()) {
-            return options.get(correctAnswer);
-        }
-        return null;
+        return correctAnswer;
     }
 
     public void addOption(String option) {

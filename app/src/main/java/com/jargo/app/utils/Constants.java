@@ -31,6 +31,9 @@ public class Constants {
     public static final String EXTRA_LESSON_TITLE = "lesson_title";
     public static final String EXTRA_FIELD_ID = "field_id";
     public static final String EXTRA_LEVEL = "level";
+    public static final String EXTRA_VOCABULARY_COUNT = "vocabulary_count";
+    public static final String EXTRA_QUIZ_SCORE = "quiz_score";
+    public static final String EXTRA_QUIZ_TOTAL = "quiz_total";
     
     // Field Types
     public static final String FIELD_IT = "it";
@@ -43,9 +46,9 @@ public class Constants {
     public static final String LEVEL_PROFESSIONAL = "professional";
     
     // Quiz Types
-    public static final String QUIZ_MULTIPLE_CHOICE = "multiple_choice";
-    public static final String QUIZ_FILL_BLANK = "fill_blank";
-    public static final String QUIZ_LISTENING = "listening";
+    public static final String QUIZ_TYPE_MULTIPLE_CHOICE = "multiple_choice";
+    public static final String QUIZ_TYPE_FILL_BLANK = "fill_blank";
+    public static final String QUIZ_TYPE_LISTENING = "listening";
     
     // XP Points
     public static final int XP_VOCABULARY_LEARNED = 5;

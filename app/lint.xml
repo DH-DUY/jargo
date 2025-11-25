@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Loading overlay intentionally covers content - this is correct UX pattern -->
+    <issue id="ObscuredByLoadingView" severity="ignore" />
+</lint>

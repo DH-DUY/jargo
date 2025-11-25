@@ -23,7 +23,6 @@ import com.jargo.app.utils.SharedPrefsManager;
 public class OnboardingActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
-    private TabLayout tabLayout;
     private Button btnNext;
     private Button btnSkip;
     
@@ -39,7 +38,7 @@ public class OnboardingActivity extends AppCompatActivity {
 
         // Khởi tạo views
         viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabLayout);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
         btnNext = findViewById(R.id.btnNext);
         btnSkip = findViewById(R.id.btnSkip);
 

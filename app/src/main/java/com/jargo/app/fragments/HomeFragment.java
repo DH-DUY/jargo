@@ -30,7 +30,6 @@ import java.util.List;
  */
 public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickListener {
 
-    private RecyclerView recyclerViewTopics;
     private TopicAdapter topicAdapter;
     private TextView tvFieldName;
     private TextView tvUserName;
@@ -62,7 +61,7 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
         tvUserName = view.findViewById(R.id.tvUserName);
         tvXP = view.findViewById(R.id.tvXP);
         tvStreak = view.findViewById(R.id.tvStreak);
-        recyclerViewTopics = view.findViewById(R.id.recyclerViewTopics);
+        RecyclerView recyclerViewTopics = view.findViewById(R.id.recyclerViewTopics);
         progressBar = view.findViewById(R.id.progressBar);
         emptyState = view.findViewById(R.id.emptyState);
 
@@ -85,10 +84,10 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
         String userName = prefsManager.getUserName();
         String fieldName = getFieldDisplayName(currentField);
 
-        tvUserName.setText(userName != null ? userName : "User");
+        tvUserName.setText(userName != null ? userName : getString(R.string.home_default_username));
         tvFieldName.setText(fieldName);
-        tvXP.setText("0"); // TODO: Load từ Firebase
-        tvStreak.setText("0"); // TODO: Load từ Firebase
+        tvXP.setText(getString(R.string.home_xp, 0)); // TODO: Load từ Firebase
+        tvStreak.setText(getString(R.string.home_streak, 0)); // TODO: Load từ Firebase
     }
 
     /**
