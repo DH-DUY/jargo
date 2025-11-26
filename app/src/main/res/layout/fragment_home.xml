@@ -163,12 +163,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="📚"
-            android:textSize="64sp"
-            tools:ignore="HardcodedText" />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/jargo_non_back_icon"
+            android:alpha="0.3"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:layout_width="wrap_content"

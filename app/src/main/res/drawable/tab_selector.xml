@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Active indicator: Perfect circle, bigger -->
+    <!-- Active indicator: Filled circle -->
     <item android:state_selected="true">
-        <shape android:shape="oval">
-            <solid android:color="@color/primary" />
-            <size android:width="10dp" android:height="10dp" />
-        </shape>
+        <layer-list>
+            <item android:gravity="center">
+                <shape android:shape="oval">
+                    <solid android:color="@color/primary" />
+                    <size android:width="8dp" android:height="8dp" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
-    <!-- Inactive indicator: Perfect circle, smaller -->
+    <!-- Inactive indicator: Gray circle -->
     <item>
-        <shape android:shape="oval">
-            <solid android:color="#BDBDBD" />
-            <size android:width="8dp" android:height="8dp" />
-        </shape>
+        <layer-list>
+            <item android:gravity="center">
+                <shape android:shape="oval">
+                    <solid android:color="#757575" />
+                    <size android:width="8dp" android:height="8dp" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
 </selector>

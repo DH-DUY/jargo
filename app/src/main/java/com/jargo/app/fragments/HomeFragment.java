@@ -21,6 +21,7 @@ import com.jargo.app.adapters.TopicAdapter;
 import com.jargo.app.models.Topic;
 import com.jargo.app.utils.Constants;
 import com.jargo.app.utils.FirebaseManager;
+import com.jargo.app.utils.NotificationHelper;
 import com.jargo.app.utils.SharedPrefsManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,9 +130,7 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(requireContext(),
-                                "Lỗi: " + error.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showError(requireActivity(), "Lỗi", error.getMessage());
                     }
                 });
     }
@@ -155,9 +154,7 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
     @Override
     public void onTopicClick(Topic topic) {
         if (topic.isLocked()) {
-            Toast.makeText(requireContext(),
-                    "Chủ đề này đang bị khóa. Hoàn thành chủ đề trước đó để mở khóa!",
-                    Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(requireActivity(), "Chủ đề này đang bị khóa. Hoàn thành chủ đề trước đó để mở khóa!");
         } else {
             // Mở LessonListActivity
             Intent intent = new Intent(requireContext(), LessonListActivity.class);

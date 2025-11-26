@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
@@ -25,6 +24,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.jargo.app.MainActivity;
 import com.jargo.app.R;
 import com.jargo.app.utils.FirebaseManager;
+import com.jargo.app.utils.NotificationHelper;
 import com.jargo.app.utils.SharedPrefsManager;
 
 /**
@@ -33,8 +33,8 @@ import com.jargo.app.utils.SharedPrefsManager;
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText etEmail, etPassword;
-    private Button btnGoogleSignIn;
-    private Button btnLogin;
+    private View btnGoogleSignIn;
+    private View btnLogin;
     private TextView tvRegisterLink, tvSkip;
     private View loadingView;
 
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         } catch (ApiException e) {
             loadingView.setVisibility(View.GONE);
-            Toast.makeText(this, "Google Sign-In thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            NotificationHelper.showError(this, "Google Sign-In thất bại", e.getMessage());
         }
     }
 
@@ -130,11 +130,11 @@ public class LoginActivity extends AppCompatActivity {
                                 prefsManager.saveUserName(user.getDisplayName());
                             }
 
-                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
+                            NotificationHelper.showInfo(this, getString(R.string.login_success));
                             goToHome();
                         }
                     } else {
-                        Toast.makeText(this, "Xác thực thất bại!", Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showError(this, "Xác thực thất bại", "Vui lòng thử lại");
                     }
                 });
     }
@@ -148,12 +148,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // Validate
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, R.string.login_error_empty, Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, getString(R.string.login_error_empty));
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, R.string.login_error_invalid_email, Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, getString(R.string.login_error_invalid_email));
             return;
         }
 
@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                                 prefsManager.saveUserName(user.getDisplayName());
                             }
 
-                            Toast.makeText(this, R.string.login_success, Toast.LENGTH_SHORT).show();
+                            NotificationHelper.showInfo(this, getString(R.string.login_success));
                             goToHome();
                         }
                     } else {
@@ -186,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
                         String errorMsg = task.getException() != null 
                                 ? task.getException().getMessage() 
                                 : "Đăng nhập thất bại";
-                        Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+                        NotificationHelper.showError(this, "Đăng nhập thất bại", errorMsg);
                     }
                 });
     }

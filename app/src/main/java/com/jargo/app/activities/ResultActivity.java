@@ -13,6 +13,7 @@ import com.jargo.app.MainActivity;
 import com.jargo.app.R;
 import com.jargo.app.repositories.ProgressRepository;
 import com.jargo.app.utils.Constants;
+import com.jargo.app.utils.NotificationHelper;
 import com.jargo.app.utils.SharedPrefsManager;
 import com.jargo.app.utils.StreakManager;
 import com.jargo.app.utils.XPCalculator;
@@ -133,17 +134,13 @@ public class ResultActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         loadingView.setVisibility(View.GONE);
-                        Toast.makeText(ResultActivity.this,
-                                "Đã lưu tiến độ!",
-                                Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showInfo(ResultActivity.this, "Đã lưu tiến độ!");
                     }
 
                     @Override
                     public void onError(String error) {
                         loadingView.setVisibility(View.GONE);
-                        Toast.makeText(ResultActivity.this,
-                                "Lỗi lưu XP: " + error,
-                                Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showError(ResultActivity.this, "Lỗi lưu XP", error);
                     }
                 });
             }
@@ -151,9 +148,7 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 loadingView.setVisibility(View.GONE);
-                Toast.makeText(ResultActivity.this,
-                        "Lỗi lưu progress: " + error,
-                        Toast.LENGTH_SHORT).show();
+                NotificationHelper.showError(ResultActivity.this, "Lỗi lưu progress", error);
             }
         });
     }
@@ -170,9 +165,7 @@ public class ResultActivity extends AppCompatActivity {
                 if (xpEarned > 0) {
                     totalXP += xpEarned;
                     tvXPEarned.setText(getString(R.string.result_xp_format, totalXP));
-                    Toast.makeText(ResultActivity.this,
-                            getString(R.string.result_streak_bonus, xpEarned),
-                            Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showSuccess(ResultActivity.this, getString(R.string.result_streak_bonus, xpEarned), xpEarned);
                 }
             }
 

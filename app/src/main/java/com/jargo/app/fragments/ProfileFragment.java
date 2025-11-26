@@ -10,8 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.jargo.app.R;
+import com.jargo.app.ThemeHelper;
 import com.jargo.app.activities.LoginActivity;
 import com.jargo.app.activities.OnboardingActivity;
 import com.jargo.app.activities.RegisterActivity;
@@ -32,6 +35,7 @@ public class ProfileFragment extends Fragment {
     private Button btnCreateAccount;
     private Button btnSignIn;
     private Button btnLogout;
+    private SwitchMaterial switchDarkMode;
 
     private SharedPrefsManager prefsManager;
     private FirebaseManager firebaseManager;
@@ -57,9 +61,13 @@ public class ProfileFragment extends Fragment {
         btnCreateAccount = view.findViewById(R.id.btnCreateAccount);
         btnSignIn = view.findViewById(R.id.btnSignIn);
         btnLogout = view.findViewById(R.id.btnLogout);
+        switchDarkMode = view.findViewById(R.id.switchDarkMode);
 
         // Load user info
         loadUserInfo();
+        
+        // Setup dark mode switch
+        setupDarkModeSwitch();
 
         // Button listeners
         btnCreateAccount.setOnClickListener(v -> goToRegister());
@@ -89,6 +97,24 @@ public class ProfileFragment extends Fragment {
         
         tvField.setText(getFieldName(prefsManager.getUserField()));
         tvLevel.setText(getLevelName(prefsManager.getUserLevel()));
+    }
+    
+    /**
+     * Setup dark mode switch
+     */
+    private void setupDarkModeSwitch() {
+        // Set initial state based on current theme
+        int currentMode = ThemeHelper.getThemeMode(requireContext());
+        switchDarkMode.setChecked(currentMode == AppCompatDelegate.MODE_NIGHT_YES);
+        
+        // Handle switch toggle
+        switchDarkMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                ThemeHelper.setThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                ThemeHelper.setThemeMode(requireContext(), AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
     }
     
     /**

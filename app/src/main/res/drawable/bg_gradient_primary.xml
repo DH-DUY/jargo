@@ -5,5 +5,7 @@
         android:startColor="@color/primary"
         android:endColor="@color/primary_dark"
         android:angle="45" />
-    <corners android:radius="50dp" /> <!-- Pill shape -->
+    <corners 
+        android:bottomLeftRadius="32dp"
+        android:bottomRightRadius="32dp" />
 </shape>

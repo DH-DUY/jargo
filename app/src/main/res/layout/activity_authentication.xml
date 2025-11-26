@@ -10,17 +10,17 @@
     <View
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:background="@drawable/bg_gradient_primary"
+        android:layout_height="200dp"
+        android:background="@drawable/bg_gradient_splash"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Logo Image -->
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="220dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="72dp"
-        android:src="@drawable/jargo"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/jargo_logo_non_back"
         android:scaleType="fitCenter"
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,9 +32,9 @@
         android:id="@+id/tvTagline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginTop="8dp"
         android:text="@string/app_tagline"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@color/white"
         android:alpha="0.9"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,16 +47,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
         app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
+        app:cardElevation="12dp"
         app:cardBackgroundColor="@color/surface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/viewHeader"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintTop_toBottomOf="@id/tvTagline"
+        app:layout_constraintVertical_bias="0.5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,48 +85,107 @@
                 android:gravity="center" />
 
             <!-- Google Sign In Button -->
-            <Button
+            <FrameLayout
                 android:id="@+id/btnGoogleSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/btn_google_sign_in"
-                android:textSize="@dimen/button_text_size"
-                android:textColor="@color/text_primary"
-                android:drawableStart="@drawable/ic_google"
-                android:drawablePadding="@dimen/padding_medium"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
                 android:background="@drawable/button_google"
-                android:textAllCaps="false"
-                android:elevation="2dp"
-                tools:ignore="ButtonStyle" />
+                android:clickable="true"
+                android:focusable="true"
+                android:elevation="2dp">
+                
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_google"
+                        android:contentDescription="Google" />
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/btn_google_sign_in"
+                        android:textSize="@dimen/button_text_size"
+                        android:textColor="@color/text_primary"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+            </FrameLayout>
 
             <!-- Continue as Guest Button -->
-            <Button
+            <FrameLayout
                 android:id="@+id/btnContinueAsGuest"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/btn_continue_as_guest"
-                android:textSize="@dimen/button_text_size"
-                android:textColor="@color/primary"
                 android:background="@drawable/button_secondary"
-                android:textAllCaps="false"
-                tools:ignore="ButtonStyle" />
+                android:clickable="true"
+                android:focusable="true">
+                
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_guest"
+                        android:contentDescription="Guest" />
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/btn_continue_as_guest"
+                        android:textSize="@dimen/button_text_size"
+                        android:textColor="@color/primary"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+            </FrameLayout>
 
             <!-- Email Login Button -->
-            <Button
+            <FrameLayout
                 android:id="@+id/btnEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/btn_email_login"
-                android:textSize="@dimen/button_text_size"
-                android:textColor="@color/primary"
                 android:background="@drawable/button_secondary"
-                android:textAllCaps="false"
-                tools:ignore="ButtonStyle" />
+                android:clickable="true"
+                android:focusable="true">
+                
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_email"
+                        android:contentDescription="Email" />
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/btn_email_login"
+                        android:textSize="@dimen/button_text_size"
+                        android:textColor="@color/primary"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+            </FrameLayout>
 
         </LinearLayout>
 

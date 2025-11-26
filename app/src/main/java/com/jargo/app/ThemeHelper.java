@@ -42,7 +42,7 @@ public class ThemeHelper {
      */
     public static int getThemeMode(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return prefs.getInt(KEY_THEME_MODE, MODE_SYSTEM); // Default: follow system
+        return prefs.getInt(KEY_THEME_MODE, MODE_LIGHT); // Default: light mode
     }
     
     /**

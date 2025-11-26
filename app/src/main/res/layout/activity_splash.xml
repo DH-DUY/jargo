@@ -3,45 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary">
+    android:background="@drawable/bg_gradient_splash">
 
-    <!-- Logo JARGO -->
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:src="@drawable/jargo"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toTopOf="@id/tvTagline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <!-- Tagline -->
-    <TextView
-        android:id="@+id/tvTagline"
+    <!-- Logo + Tagline Group -->
+    <LinearLayout
+        android:id="@+id/logoGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:text="@string/app_tagline"
-        android:textSize="@dimen/text_size_body"
-        android:textColor="@color/white"
-        android:alpha="0.9"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Progress indicator -->
-    <ProgressBar
+        <!-- Logo JARGO -->
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:src="@drawable/jargo_logo_non_back"
+            android:contentDescription="@string/app_name" />
+
+        <!-- Tagline -->
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/app_tagline"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <!-- Animated Dots Loading -->
+    <LinearLayout
+        android:id="@+id/loadingDots"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_xlarge"
-        android:indeterminateTint="@color/white"
+        android:layout_height="60dp"
+        android:layout_marginBottom="64dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingVertical="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:id="@+id/dot1"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/dot_shape" />
+
+        <View
+            android:id="@+id/dot2"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/dot_shape" />
+
+        <View
+            android:id="@+id/dot3"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/dot_shape" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,13 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
+        android:name=".JargoApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/jargo_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/jargo_icon"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jargo">
         
@@ -19,7 +20,7 @@
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.Jargo.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,13 +31,13 @@
         <activity
             android:name=".activities.AuthenticationActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Jargo" />
         
         <!-- OnboardingActivity - Màn hình chọn chuyên ngành và trình độ -->
         <activity
             android:name=".activities.OnboardingActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Jargo" />
         
         <!-- MainActivity - Màn hình chính của app -->
         <activity
@@ -70,13 +71,13 @@
         <activity
             android:name=".activities.LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Jargo" />
         
         <!-- RegisterActivity - Đăng ký tài khoản -->
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.Jargo" />
             
     </application>
 

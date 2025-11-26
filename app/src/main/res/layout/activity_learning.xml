@@ -66,13 +66,15 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_medium"
+        android:background="@android:color/transparent"
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
-        app:tabMinWidth="16dp"
-        app:tabMaxWidth="16dp"
+        app:tabMinWidth="24dp"
+        app:tabMaxWidth="24dp"
+        app:tabPadding="0dp"
         app:layout_constraintBottom_toTopOf="@id/controlLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -84,6 +86,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/padding_medium"
+        android:layout_marginBottom="@dimen/margin_xlarge"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +95,6 @@
 
         <Button
             android:id="@+id/btnPrevious"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -101,6 +103,8 @@
             android:text="@string/learning_previous"
             android:contentDescription="@string/cd_previous_word"
             android:textSize="@dimen/button_text_size"
+            android:textColor="@color/primary"
+            android:background="@drawable/button_secondary"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
         <Button

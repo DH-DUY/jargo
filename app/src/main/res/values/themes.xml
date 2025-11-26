@@ -27,6 +27,15 @@
 
     <style name="Theme.Jargo" parent="Base.Theme.Jargo" />
     
+    <!-- Splash Theme - Blue background -->
+    <style name="Theme.Jargo.Splash" parent="Theme.Jargo">
+        <item name="android:windowBackground">@color/primary</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:navigationBarColor">@color/primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+    
     <!-- Toolbar Style -->
     <style name="Theme.Jargo.AppBar" parent="Theme.Jargo">
         <item name="android:statusBarColor">@color/primary</item>

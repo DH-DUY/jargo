@@ -58,7 +58,7 @@ public class Constants {
     public static final int XP_DAILY_STREAK = 25;
     
     // UI Constants
-    public static final int SPLASH_DELAY_MS = 2000;
+    public static final int SPLASH_DELAY_MS = 3000;
     public static final int ANIMATION_DURATION_MS = 300;
     public static final int QUIZ_TIME_LIMIT_SECONDS = 30;
     

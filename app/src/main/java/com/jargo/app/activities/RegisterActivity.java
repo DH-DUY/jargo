@@ -27,6 +27,7 @@ import com.jargo.app.MainActivity;
 import com.jargo.app.R;
 import com.jargo.app.utils.Constants;
 import com.jargo.app.utils.FirebaseManager;
+import com.jargo.app.utils.NotificationHelper;
 import com.jargo.app.utils.SharedPrefsManager;
 
 /**
@@ -109,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         } catch (ApiException e) {
             loadingView.setVisibility(View.GONE);
-            Toast.makeText(this, "Google Sign-Up thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            NotificationHelper.showError(this, "Google Sign-Up thất bại", e.getMessage());
         }
     }
 
@@ -132,11 +133,11 @@ public class RegisterActivity extends AppCompatActivity {
                                 prefsManager.saveUserName(user.getDisplayName());
                             }
 
-                            Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show();
+                            NotificationHelper.showInfo(this, getString(R.string.register_success));
                             goToHome();
                         }
                     } else {
-                        Toast.makeText(this, "Xác thực thất bại!", Toast.LENGTH_SHORT).show();
+                        NotificationHelper.showError(this, "Xác thực thất bại", "Vui lòng thử lại");
                     }
                 });
     }
@@ -153,27 +154,27 @@ public class RegisterActivity extends AppCompatActivity {
         // Validate
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || 
             TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
-            Toast.makeText(this, R.string.register_error_empty, Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, getString(R.string.register_error_empty));
             return;
         }
 
         if (name.length() < Constants.MIN_NAME_LENGTH) {
-            Toast.makeText(this, R.string.register_error_name_short, Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, getString(R.string.register_error_name_short));
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, R.string.login_error_invalid_email, Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, getString(R.string.login_error_invalid_email));
             return;
         }
 
         if (password.length() < Constants.MIN_PASSWORD_LENGTH) {
-            Toast.makeText(this, R.string.register_error_password_short, Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, getString(R.string.register_error_password_short));
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, R.string.register_error_password_mismatch, Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, getString(R.string.register_error_password_mismatch));
             return;
         }
 
@@ -203,7 +204,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             prefsManager.saveUserName(name);
                                             prefsManager.saveUserEmail(email);
 
-                                            Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show();
+                                            NotificationHelper.showInfo(this, getString(R.string.register_success));
                                             goToHome();
                                         }
                                     });
@@ -216,7 +217,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String errorMsg = task.getException() != null 
                                 ? task.getException().getMessage() 
                                 : "Đăng ký thất bại";
-                        Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+                        NotificationHelper.showError(this, "Đăng ký thất bại", errorMsg);
                     }
                 });
     }

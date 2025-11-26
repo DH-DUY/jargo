@@ -62,6 +62,9 @@
     <string name="profile_field">Chuyên ngành</string>
     <string name="profile_level">Trình độ</string>
     
+    <!-- Settings -->
+    <string name="settings_dark_mode">Chế độ tối</string>
+    
     <!-- Learning -->
     <string name="learning_vocabulary">Từ vựng</string>
     <string name="learning_pronunciation">Phát âm</string>

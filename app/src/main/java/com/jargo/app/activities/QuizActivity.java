@@ -18,6 +18,7 @@ import com.jargo.app.R;
 import com.jargo.app.models.Quiz;
 import com.jargo.app.repositories.QuizRepository;
 import com.jargo.app.utils.Constants;
+import com.jargo.app.utils.NotificationHelper;
 import java.util.List;
 
 /**
@@ -94,9 +95,7 @@ public class QuizActivity extends AppCompatActivity {
                 loadingView.setVisibility(View.GONE);
 
                 if (quizList.isEmpty()) {
-                    Toast.makeText(QuizActivity.this,
-                            "Chưa có quiz cho bài này",
-                            Toast.LENGTH_SHORT).show();
+                    NotificationHelper.showWarning(QuizActivity.this, "Chưa có quiz cho bài này");
                     finish();
                     return;
                 }
@@ -109,9 +108,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 loadingView.setVisibility(View.GONE);
-                Toast.makeText(QuizActivity.this,
-                        "Lỗi: " + error,
-                        Toast.LENGTH_SHORT).show();
+                NotificationHelper.showError(QuizActivity.this, "Lỗi", error);
                 finish();
             }
         });
@@ -190,7 +187,7 @@ public class QuizActivity extends AppCompatActivity {
         String userAnswer = getUserAnswer(quiz);
 
         if (userAnswer == null || userAnswer.isEmpty()) {
-            Toast.makeText(this, "Vui lòng chọn hoặc nhập đáp án", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showWarning(this, "Vui lòng chọn hoặc nhập đáp án");
             return;
         }
 
@@ -198,9 +195,9 @@ public class QuizActivity extends AppCompatActivity {
 
         if (isCorrect) {
             correctAnswers++;
-            Toast.makeText(this, "✅ Đúng rồi! +" + quiz.getXpReward() + " XP", Toast.LENGTH_SHORT).show();
+            NotificationHelper.showSuccess(this, "Đúng rồi! Tuyệt vời!", quiz.getXpReward());
         } else {
-            Toast.makeText(this, "❌ Sai rồi!\nĐáp án: " + quiz.getCorrectAnswer(), Toast.LENGTH_LONG).show();
+            NotificationHelper.showError(this, "Sai rồi!", quiz.getCorrectAnswer());
         }
 
         // Show explanation if available
