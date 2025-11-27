@@ -76,6 +76,10 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
         // Load data
         loadUserInfo();
         loadData();
+        
+        // Load user stats
+        viewModel.loadUserXP();
+        viewModel.loadUserStreak();
 
         return view;
     }
@@ -131,6 +135,13 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
                 tvStreak.setText(getString(R.string.home_streak, streak));
             }
         });
+
+        // Observe progress map để update progress bar
+        viewModel.getProgressMap().observe(getViewLifecycleOwner(), progressMap -> {
+            if (progressMap != null) {
+                topicAdapter.updateProgress(progressMap);
+            }
+        });
     }
 
     /**
@@ -180,5 +191,14 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
             intent.putExtra(Constants.EXTRA_TOPIC_NAME, topic.getName());
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh user stats khi quay lại fragment
+        // (sau khi complete quiz, XP/Streak đã được update)
+        viewModel.loadUserXP();
+        viewModel.loadUserStreak();
     }
 }

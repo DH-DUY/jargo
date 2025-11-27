@@ -8,8 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.jargo.app.R;
+import com.jargo.app.models.Progress;
 import com.jargo.app.models.Topic;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TopicAdapter - Adapter cho RecyclerView hiển thị danh sách topics
@@ -17,6 +20,7 @@ import java.util.List;
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHolder> {
 
     private List<Topic> topics;
+    private Map<String, Progress> progressMap;
     private OnTopicClickListener listener;
 
     public interface OnTopicClickListener {
@@ -25,6 +29,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
 
     public TopicAdapter(List<Topic> topics, OnTopicClickListener listener) {
         this.topics = topics;
+        this.progressMap = new HashMap<>();
         this.listener = listener;
     }
 
@@ -39,7 +44,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
     @Override
     public void onBindViewHolder(@NonNull TopicViewHolder holder, int position) {
         Topic topic = topics.get(position);
-        holder.bind(topic, listener);
+        holder.bind(topic, progressMap, listener);
     }
 
     @Override
@@ -52,6 +57,14 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
      */
     public void updateTopics(List<Topic> newTopics) {
         this.topics = newTopics;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Update progress map
+     */
+    public void updateProgress(Map<String, Progress> progressMap) {
+        this.progressMap = progressMap != null ? progressMap : new HashMap<>();
         notifyDataSetChanged();
     }
 
@@ -77,15 +90,15 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
             lockIndicator = itemView.findViewById(R.id.lockIndicator);
         }
 
-        public void bind(Topic topic, OnTopicClickListener listener) {
+        public void bind(Topic topic, Map<String, Progress> progressMap, OnTopicClickListener listener) {
             tvTopicName.setText(topic.getName());
             tvTopicNameEn.setText(topic.getNameEn());
             tvDescription.setText(topic.getDescription());
             tvLessonCount.setText(topic.getLessonCount() + " bài học");
             tvVocabCount.setText(topic.getTotalVocabularies() + " từ vựng");
 
-            // Progress (TODO: Tính toán từ Firebase)
-            int progress = topic.isLocked() ? 0 : 0; // Placeholder
+            // Calculate progress from completed lessons
+            int progress = calculateTopicProgress(topic, progressMap);
             progressBar.setProgress(progress);
             tvProgress.setText(progress + "%");
 
@@ -97,6 +110,55 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicViewHol
 
             // Click listener
             itemView.setOnClickListener(v -> listener.onTopicClick(topic));
+        }
+
+        /**
+         * Calculate progress percentage for a topic based on completed lessons
+         */
+        private int calculateTopicProgress(Topic topic, Map<String, Progress> progressMap) {
+            if (topic.getLessonCount() == 0) {
+                return 0;
+            }
+
+            // Count completed lessons for this topic
+            int completedLessons = 0;
+            for (Map.Entry<String, Progress> entry : progressMap.entrySet()) {
+                Progress progress = entry.getValue();
+                String lessonId = entry.getKey(); // lessonId from map key
+                
+                // Filter by topicId if available
+                if (progress.getTopicId() != null && topic.getTopicId() != null) {
+                    if (progress.getTopicId().equals(topic.getTopicId()) && progress.isCompleted()) {
+                        completedLessons++;
+                    }
+                } 
+                // Fallback: Use lessonId pattern matching (e.g., "lesson_it_001" belongs to IT topic)
+                else if (lessonId != null && progress.isCompleted()) {
+                    // Extract topic from lessonId pattern: "lesson_{topicId}_{number}"
+                    String topicFromLesson = extractTopicFromLessonId(lessonId);
+                    if (topicFromLesson != null && topic.getTopicId() != null 
+                            && topic.getTopicId().contains(topicFromLesson)) {
+                        completedLessons++;
+                    }
+                }
+            }
+
+            // Calculate percentage
+            return Math.min(100, (completedLessons * 100) / topic.getLessonCount());
+        }
+        
+        /**
+         * Extract topic ID from lessonId pattern
+         * Example: "lesson_it_001" -> "it"
+         */
+        private String extractTopicFromLessonId(String lessonId) {
+            if (lessonId != null && lessonId.startsWith("lesson_")) {
+                String[] parts = lessonId.split("_");
+                if (parts.length >= 2) {
+                    return parts[1]; // Return topic part (e.g., "it", "medical")
+                }
+            }
+            return null;
         }
     }
 }

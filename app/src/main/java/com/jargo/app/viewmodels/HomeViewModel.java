@@ -1,13 +1,20 @@
 package com.jargo.app.viewmodels;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.jargo.app.models.Topic;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.jargo.app.models.Progress;
-import com.jargo.app.repositories.TopicRepository;
+import com.jargo.app.models.Topic;
 import com.jargo.app.repositories.ProgressRepository;
+import com.jargo.app.repositories.TopicRepository;
+import com.jargo.app.utils.Constants;
+import com.jargo.app.utils.FirebaseManager;
 import com.jargo.app.utils.SharedPrefsManager;
+import com.jargo.app.utils.StreakManager;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +26,7 @@ public class HomeViewModel extends ViewModel {
 
     private final TopicRepository topicRepository;
     private final ProgressRepository progressRepository;
+    private final SharedPrefsManager prefsManager;
     
     // LiveData cho topics
     private final MutableLiveData<List<Topic>> topicsLiveData = new MutableLiveData<>();
@@ -34,6 +42,7 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<Integer> streakLiveData = new MutableLiveData<>(0);
 
     public HomeViewModel(SharedPrefsManager prefsManager) {
+        this.prefsManager = prefsManager;
         this.topicRepository = TopicRepository.getInstance();
         this.progressRepository = ProgressRepository.getInstance(prefsManager);
     }
@@ -144,7 +153,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     /**
-     * Update XP và streak
+     * Update XP và streak (manual)
      */
     public void updateUserStats(int xp, int streak) {
         totalXPLiveData.setValue(xp);
@@ -152,14 +161,57 @@ public class HomeViewModel extends ViewModel {
     }
 
     /**
-     * Refresh data
+     * Load user XP từ Firebase
+     */
+    public void loadUserXP() {
+        String userId = prefsManager.getUserId();
+        if (userId == null) {
+            totalXPLiveData.setValue(0);
+            return;
+        }
+
+        FirebaseManager.getInstance()
+                .getDatabaseReference()
+                .child(Constants.DB_USERS)
+                .child(userId)
+                .child("totalXP")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Integer xp = snapshot.getValue(Integer.class);
+                        totalXPLiveData.postValue(xp != null ? xp : 0);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        totalXPLiveData.postValue(0);
+                    }
+                });
+    }
+
+    /**
+     * Load user streak từ StreakManager
+     */
+    public void loadUserStreak() {
+        // Get current streak from StreakManager
+        // TODO: StreakManager cần thêm method getStreak()
+        streakLiveData.setValue(0);
+    }
+
+    /**
+     * Refresh data (topics + user stats)
      */
     public void refresh() {
+        // Refresh topics
         String currentField = userFieldLiveData.getValue();
         if (currentField != null) {
             loadTopicsByField(currentField);
         } else {
             loadAllTopics();
         }
+        
+        // Refresh user stats
+        loadUserXP();
+        loadUserStreak();
     }
 }
