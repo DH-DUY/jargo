@@ -272,11 +272,15 @@ public class QuizActivity extends AppCompatActivity {
         // Submit answer to ViewModel
         viewModel.submitAnswer(selectedIndex);
         
+        // Check if answer is correct
         boolean isCorrect = checkCorrectAnswer(quiz, userAnswer);
 
+        // Record result in ViewModel
         if (isCorrect) {
+            viewModel.recordCorrectAnswer();
             NotificationHelper.showSuccess(this, "Đúng rồi! Tuyệt vời!", quiz.getXpReward());
         } else {
+            viewModel.recordWrongAnswer();
             NotificationHelper.showError(this, "Sai rồi!", quiz.getCorrectAnswer());
         }
 

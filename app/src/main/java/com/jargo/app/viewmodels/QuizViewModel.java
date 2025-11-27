@@ -145,21 +145,28 @@ public class QuizViewModel extends ViewModel {
     public void submitAnswer(int answerIndex) {
         Integer currentPos = currentPositionLiveData.getValue();
         List<Integer> answers = userAnswersLiveData.getValue();
-        List<Quiz> quizzes = quizzesLiveData.getValue();
         
-        if (currentPos != null && answers != null && quizzes != null) {
+        if (currentPos != null && answers != null) {
             // Save user's answer
             answers.set(currentPos, answerIndex);
             userAnswersLiveData.setValue(answers);
-            
-            // Check if answer is correct
-            Quiz currentQuiz = quizzes.get(currentPos);
-            if (currentQuiz.getCorrectAnswer() == answerIndex) {
-                correctAnswersLiveData.setValue(correctAnswersLiveData.getValue() + 1);
-            } else {
-                wrongAnswersLiveData.setValue(wrongAnswersLiveData.getValue() + 1);
-            }
         }
+    }
+
+    /**
+     * Record correct answer
+     */
+    public void recordCorrectAnswer() {
+        Integer current = correctAnswersLiveData.getValue();
+        correctAnswersLiveData.setValue(current != null ? current + 1 : 1);
+    }
+
+    /**
+     * Record wrong answer
+     */
+    public void recordWrongAnswer() {
+        Integer current = wrongAnswersLiveData.getValue();
+        wrongAnswersLiveData.setValue(current != null ? current + 1 : 1);
     }
 
     /**
@@ -275,14 +282,14 @@ public class QuizViewModel extends ViewModel {
     }
 
     /**
-     * Check if answer is correct
+     * Get user's answer for specific quiz
      */
-    public boolean isAnswerCorrect(int quizIndex, int answerIndex) {
-        List<Quiz> quizzes = quizzesLiveData.getValue();
-        if (quizzes != null && quizIndex >= 0 && quizIndex < quizzes.size()) {
-            return quizzes.get(quizIndex).getCorrectAnswer() == answerIndex;
+    public Integer getUserAnswer(int quizIndex) {
+        List<Integer> answers = userAnswersLiveData.getValue();
+        if (answers != null && quizIndex >= 0 && quizIndex < answers.size()) {
+            return answers.get(quizIndex);
         }
-        return false;
+        return null;
     }
 
     /**
