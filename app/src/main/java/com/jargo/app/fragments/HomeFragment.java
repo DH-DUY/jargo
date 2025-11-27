@@ -6,31 +6,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.jargo.app.R;
 import com.jargo.app.activities.LessonListActivity;
 import com.jargo.app.adapters.TopicAdapter;
 import com.jargo.app.models.Topic;
 import com.jargo.app.utils.Constants;
-import com.jargo.app.utils.FirebaseManager;
 import com.jargo.app.utils.NotificationHelper;
 import com.jargo.app.utils.SharedPrefsManager;
+import com.jargo.app.viewmodels.HomeViewModel;
+import com.jargo.app.viewmodels.ViewModelFactory;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * HomeFragment - Màn hình chính hiển thị danh sách topics
+ * Sử dụng MVVM pattern với HomeViewModel
  */
 public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickListener {
 
+    // ViewModel
+    private HomeViewModel viewModel;
+    
+    // UI Components
     private TopicAdapter topicAdapter;
     private TextView tvFieldName;
     private TextView tvUserName;
@@ -39,9 +41,8 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
     private View progressBar;
     private View emptyState;
 
+    // Utils
     private SharedPrefsManager prefsManager;
-    private FirebaseManager firebaseManager;
-    private String currentField;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -54,8 +55,6 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
 
         // Khởi tạo
         prefsManager = SharedPrefsManager.getInstance(requireContext());
-        firebaseManager = FirebaseManager.getInstance();
-        currentField = prefsManager.getUserField();
 
         // Bind views
         tvFieldName = view.findViewById(R.id.tvFieldName);
@@ -71,11 +70,67 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
         topicAdapter = new TopicAdapter(new ArrayList<>(), this);
         recyclerViewTopics.setAdapter(topicAdapter);
 
+        // Setup ViewModel
+        setupViewModel();
+
         // Load data
         loadUserInfo();
-        loadTopics();
+        loadData();
 
         return view;
+    }
+
+    /**
+     * Setup ViewModel và LiveData observers
+     */
+    private void setupViewModel() {
+        ViewModelFactory factory = new ViewModelFactory(prefsManager);
+        viewModel = new ViewModelProvider(this, factory).get(HomeViewModel.class);
+
+        // Observe topics
+        viewModel.getTopics().observe(getViewLifecycleOwner(), topics -> {
+            if (topics != null && !topics.isEmpty()) {
+                // Sort theo orderIndex
+                topics.sort((t1, t2) -> Integer.compare(t1.getOrderIndex(), t2.getOrderIndex()));
+                topicAdapter.updateTopics(topics);
+                emptyState.setVisibility(View.GONE);
+            } else {
+                topicAdapter.updateTopics(new ArrayList<>());
+                emptyState.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Observe loading state
+        viewModel.isLoading().observe(getViewLifecycleOwner(), isLoading -> {
+            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        });
+
+        // Observe error
+        viewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null && !error.isEmpty()) {
+                NotificationHelper.showError(requireActivity(), "Lỗi", error);
+            }
+        });
+
+        // Observe user field
+        viewModel.getUserField().observe(getViewLifecycleOwner(), field -> {
+            if (field != null) {
+                tvFieldName.setText(getFieldDisplayName(field));
+            }
+        });
+
+        // Observe XP and Streak
+        viewModel.getTotalXP().observe(getViewLifecycleOwner(), xp -> {
+            if (xp != null) {
+                tvXP.setText(getString(R.string.home_xp, xp));
+            }
+        });
+
+        viewModel.getStreak().observe(getViewLifecycleOwner(), streak -> {
+            if (streak != null) {
+                tvStreak.setText(getString(R.string.home_streak, streak));
+            }
+        });
     }
 
     /**
@@ -83,56 +138,19 @@ public class HomeFragment extends Fragment implements TopicAdapter.OnTopicClickL
      */
     private void loadUserInfo() {
         String userName = prefsManager.getUserName();
-        String fieldName = getFieldDisplayName(currentField);
-
         tvUserName.setText(userName != null ? userName : getString(R.string.home_default_username));
-        tvFieldName.setText(fieldName);
-        tvXP.setText(getString(R.string.home_xp, 0)); // TODO: Load từ Firebase
-        tvStreak.setText(getString(R.string.home_streak, 0)); // TODO: Load từ Firebase
     }
 
     /**
-     * Load danh sách topics từ Firebase theo field
+     * Load data từ ViewModel
      */
-    private void loadTopics() {
-        progressBar.setVisibility(View.VISIBLE);
-        emptyState.setVisibility(View.GONE);
-
-        firebaseManager.getDatabaseReference()
-                .child(Constants.DB_TOPICS)
-                .orderByChild("fieldId")
-                .equalTo(currentField)
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        List<Topic> topics = new ArrayList<>();
-
-                        for (DataSnapshot topicSnapshot : snapshot.getChildren()) {
-                            Topic topic = topicSnapshot.getValue(Topic.class);
-                            if (topic != null) {
-                                topics.add(topic);
-                            }
-                        }
-
-                        // Sort theo orderIndex
-                        topics.sort((t1, t2) -> Integer.compare(t1.getOrderIndex(), t2.getOrderIndex()));
-
-                        // Update UI
-                        progressBar.setVisibility(View.GONE);
-                        if (topics.isEmpty()) {
-                            emptyState.setVisibility(View.VISIBLE);
-                        } else {
-                            emptyState.setVisibility(View.GONE);
-                            topicAdapter.updateTopics(topics);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        progressBar.setVisibility(View.GONE);
-                        NotificationHelper.showError(requireActivity(), "Lỗi", error.getMessage());
-                    }
-                });
+    private void loadData() {
+        String currentField = prefsManager.getUserField();
+        if (currentField != null && !currentField.isEmpty()) {
+            viewModel.setUserField(currentField);
+        } else {
+            viewModel.loadAllTopics();
+        }
     }
 
     /**

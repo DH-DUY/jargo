@@ -11,21 +11,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.jargo.app.R;
 import com.jargo.app.adapters.VocabularyPagerAdapter;
 import com.jargo.app.models.Vocabulary;
-import com.jargo.app.repositories.VocabularyRepository;
 import com.jargo.app.utils.Constants;
+import com.jargo.app.viewmodels.LearningViewModel;
+import com.jargo.app.viewmodels.ViewModelFactory;
+import com.jargo.app.utils.SharedPrefsManager;
 import java.util.List;
 
 /**
  * LearningActivity - Màn hình học từ vựng với flashcards
+ * Sử dụng MVVM pattern với LearningViewModel
  */
 public class LearningActivity extends AppCompatActivity {
 
+    // ViewModel
+    private LearningViewModel viewModel;
+    
+    // UI Components
     private TextView tvProgress;
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
@@ -35,19 +43,15 @@ public class LearningActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private View loadingView;
 
-    private VocabularyRepository vocabularyRepository;
+    // Data
     private List<Vocabulary> vocabularies;
-
     private String lessonId;
     private String lessonTitle;
-    private int currentPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learning);
-
-        vocabularyRepository = VocabularyRepository.getInstance();
 
         // Get data from Intent
         lessonId = getIntent().getStringExtra(Constants.EXTRA_LESSON_ID);
@@ -71,48 +75,65 @@ public class LearningActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(lessonTitle);
         }
 
+        // Setup ViewModel
+        setupViewModel();
+
         // Load vocabularies
-        loadVocabularies();
+        viewModel.loadLesson(lessonId);
 
         // Button listeners
-        btnPrevious.setOnClickListener(v -> previousCard());
-        btnNext.setOnClickListener(v -> nextCard());
+        btnPrevious.setOnClickListener(v -> viewModel.previousVocabulary());
+        btnNext.setOnClickListener(v -> viewModel.nextVocabulary());
         btnComplete.setOnClickListener(v -> completeLesson());
     }
 
     /**
-     * Load danh sách từ vựng
+     * Setup ViewModel và LiveData observers
      */
-    private void loadVocabularies() {
-        loadingView.setVisibility(View.VISIBLE);
+    private void setupViewModel() {
+        SharedPrefsManager prefsManager = SharedPrefsManager.getInstance(this);
+        ViewModelFactory factory = new ViewModelFactory(prefsManager);
+        viewModel = new ViewModelProvider(this, factory).get(LearningViewModel.class);
 
-        vocabularyRepository.getVocabulariesByLesson(lessonId, new VocabularyRepository.VocabularyCallback() {
-            @Override
-            public void onSuccess(List<Vocabulary> vocabs) {
-                loadingView.setVisibility(View.GONE);
-                
-                if (vocabs.isEmpty()) {
-                    Toast.makeText(LearningActivity.this,
-                            "Chưa có từ vựng trong bài này",
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                    return;
-                }
-
+        // Observe vocabularies
+        viewModel.getVocabularies().observe(this, vocabs -> {
+            if (vocabs != null && !vocabs.isEmpty()) {
                 vocabularies = vocabs;
                 setupViewPager();
-            }
-
-            @Override
-            public void onError(String error) {
-                loadingView.setVisibility(View.GONE);
-                Toast.makeText(LearningActivity.this,
-                        "Lỗi: " + error,
-                        Toast.LENGTH_SHORT).show();
+            } else if (vocabs != null) {
+                Toast.makeText(this, "Chưa có từ vựng trong bài này", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
+
+        // Observe loading state
+        viewModel.isLoading().observe(this, isLoading -> {
+            loadingView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        });
+
+        // Observe error
+        viewModel.getError().observe(this, error -> {
+            if (error != null && !error.isEmpty()) {
+                Toast.makeText(this, "Lỗi: " + error, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
+        // Observe current position
+        viewModel.getCurrentPosition().observe(this, position -> {
+            if (position != null && vocabularies != null) {
+                viewPager.setCurrentItem(position, true);
+            }
+        });
+
+        // Observe completion
+        viewModel.isCompleted().observe(this, isCompleted -> {
+            if (isCompleted != null && isCompleted) {
+                completeLesson();
+            }
+        });
     }
+
 
     /**
      * Setup ViewPager với vocabularies
@@ -131,7 +152,7 @@ public class LearningActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                currentPosition = position;
+                viewModel.goToVocabulary(position);
                 updateUI();
             }
         });
@@ -143,39 +164,28 @@ public class LearningActivity extends AppCompatActivity {
      * Update UI dựa vào position hiện tại
      */
     private void updateUI() {
-        int total = vocabularies.size();
-        int current = currentPosition + 1;
+        Integer currentPos = viewModel.getCurrentPosition().getValue();
+        Integer total = viewModel.getTotalVocabularies().getValue();
+        
+        if (currentPos == null || total == null || total == 0) {
+            return;
+        }
+        
+        int current = currentPos + 1;
 
         // Progress text
         tvProgress.setText(getString(R.string.learning_progress, current, total));
 
         // Progress bar
-        int progress = (int) ((current * 100.0) / total);
+        int progress = viewModel.getProgressPercentage();
         progressBar.setProgress(progress);
 
         // Buttons
-        btnPrevious.setEnabled(currentPosition > 0);
-        btnNext.setVisibility(currentPosition < total - 1 ? View.VISIBLE : View.GONE);
-        btnComplete.setVisibility(currentPosition == total - 1 ? View.VISIBLE : View.GONE);
+        btnPrevious.setEnabled(currentPos > 0);
+        btnNext.setVisibility(currentPos < total - 1 ? View.VISIBLE : View.GONE);
+        btnComplete.setVisibility(currentPos == total - 1 ? View.VISIBLE : View.GONE);
     }
 
-    /**
-     * Chuyển đến card trước
-     */
-    private void previousCard() {
-        if (currentPosition > 0) {
-            viewPager.setCurrentItem(currentPosition - 1, true);
-        }
-    }
-
-    /**
-     * Chuyển đến card tiếp theo
-     */
-    private void nextCard() {
-        if (currentPosition < vocabularies.size() - 1) {
-            viewPager.setCurrentItem(currentPosition + 1, true);
-        }
-    }
 
     /**
      * Hoàn thành lesson

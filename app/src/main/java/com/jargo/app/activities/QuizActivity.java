@@ -10,22 +10,29 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import com.jargo.app.R;
 import com.jargo.app.models.Quiz;
-import com.jargo.app.repositories.QuizRepository;
 import com.jargo.app.utils.Constants;
 import com.jargo.app.utils.NotificationHelper;
+import com.jargo.app.utils.SharedPrefsManager;
+import com.jargo.app.viewmodels.QuizViewModel;
+import com.jargo.app.viewmodels.ViewModelFactory;
 import java.util.List;
 
 /**
  * QuizActivity - Màn hình làm quiz
+ * Sử dụng MVVM pattern với QuizViewModel
  */
 public class QuizActivity extends AppCompatActivity {
 
+    // ViewModel
+    private QuizViewModel viewModel;
+    
+    // UI Components
     private TextView tvQuestionNumber;
     private TextView tvQuestion;
     private RadioGroup radioGroupOptions;
@@ -35,22 +42,17 @@ public class QuizActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private View loadingView;
 
-    private QuizRepository quizRepository;
+    // Data
     private List<Quiz> quizzes;
-    private int currentQuestionIndex = 0;
-    private int correctAnswers = 0;
-    private int totalQuestions = 0;
-
     private String lessonId;
     private String lessonTitle;
     private int vocabularyCount;
+    private boolean isAnswerChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-
-        quizRepository = QuizRepository.getInstance();
 
         // Get data from Intent
         lessonId = getIntent().getStringExtra(Constants.EXTRA_LESSON_ID);
@@ -75,53 +77,96 @@ public class QuizActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Quiz: " + lessonTitle);
         }
 
+        // Setup ViewModel
+        setupViewModel();
+
         // Button listeners
         btnCheckAnswer.setOnClickListener(v -> checkAnswer());
         btnNextQuestion.setOnClickListener(v -> nextQuestion());
 
         // Load quizzes
-        loadQuizzes();
+        viewModel.loadQuizzes(lessonId, true);
     }
 
     /**
-     * Load danh sách quiz
+     * Setup ViewModel và LiveData observers
      */
-    private void loadQuizzes() {
-        loadingView.setVisibility(View.VISIBLE);
+    private void setupViewModel() {
+        SharedPrefsManager prefsManager = SharedPrefsManager.getInstance(this);
+        ViewModelFactory factory = new ViewModelFactory(prefsManager);
+        viewModel = new ViewModelProvider(this, factory).get(QuizViewModel.class);
 
-        quizRepository.getQuizzesByLesson(lessonId, true, new QuizRepository.QuizCallback() {
-            @Override
-            public void onSuccess(List<Quiz> quizList) {
-                loadingView.setVisibility(View.GONE);
-
-                if (quizList.isEmpty()) {
-                    NotificationHelper.showWarning(QuizActivity.this, "Chưa có quiz cho bài này");
-                    finish();
-                    return;
-                }
-
+        // Observe quizzes
+        viewModel.getQuizzes().observe(this, quizList -> {
+            if (quizList != null && !quizList.isEmpty()) {
                 quizzes = quizList;
-                totalQuestions = quizzes.size();
                 showQuestion();
-            }
-
-            @Override
-            public void onError(String error) {
-                loadingView.setVisibility(View.GONE);
-                NotificationHelper.showError(QuizActivity.this, "Lỗi", error);
+            } else if (quizList != null) {
+                NotificationHelper.showWarning(this, "Chưa có quiz cho bài này");
                 finish();
             }
         });
+
+        // Observe current quiz
+        viewModel.getCurrentQuiz().observe(this, quiz -> {
+            if (quiz != null) {
+                displayQuiz(quiz);
+            }
+        });
+
+        // Observe loading state
+        viewModel.isLoading().observe(this, isLoading -> {
+            loadingView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        });
+
+        // Observe error
+        viewModel.getError().observe(this, error -> {
+            if (error != null && !error.isEmpty()) {
+                NotificationHelper.showError(this, "Lỗi", error);
+                finish();
+            }
+        });
+
+        // Observe completion
+        viewModel.isCompleted().observe(this, isCompleted -> {
+            if (isCompleted != null && isCompleted) {
+                showResult();
+            }
+        });
+
+        // Observe current position for progress
+        viewModel.getCurrentPosition().observe(this, position -> {
+            if (position != null) {
+                updateProgress();
+            }
+        });
     }
+
 
     /**
      * Hiển thị câu hỏi hiện tại
      */
     private void showQuestion() {
-        Quiz quiz = quizzes.get(currentQuestionIndex);
+        Integer currentPos = viewModel.getCurrentPosition().getValue();
+        if (currentPos != null && quizzes != null && currentPos < quizzes.size()) {
+            Quiz quiz = quizzes.get(currentPos);
+            displayQuiz(quiz);
+        }
+    }
+
+    /**
+     * Display quiz UI
+     */
+    private void displayQuiz(Quiz quiz) {
+        Integer currentPos = viewModel.getCurrentPosition().getValue();
+        Integer total = viewModel.getTotalQuizzes().getValue();
+        
+        if (currentPos == null || total == null) {
+            return;
+        }
 
         // Question number
-        tvQuestionNumber.setText(getString(R.string.quiz_question, currentQuestionIndex + 1, totalQuestions));
+        tvQuestionNumber.setText(getString(R.string.quiz_question, currentPos + 1, total));
 
         // Question text
         String questionText = quiz.getQuestion();
@@ -130,15 +175,17 @@ public class QuizActivity extends AppCompatActivity {
         }
         tvQuestion.setText(questionText);
 
-        // Progress bar
-        int progress = (int) (((currentQuestionIndex + 1) * 100.0) / totalQuestions);
-        progressBar.setProgress(progress);
-
         // Reset UI
+        isAnswerChecked = false;
         btnCheckAnswer.setVisibility(View.VISIBLE);
         btnNextQuestion.setVisibility(View.GONE);
         radioGroupOptions.clearCheck();
         etFillBlank.setText("");
+        radioGroupOptions.setEnabled(true);
+        etFillBlank.setEnabled(true);
+        for (int i = 0; i < radioGroupOptions.getChildCount(); i++) {
+            radioGroupOptions.getChildAt(i).setEnabled(true);
+        }
 
         // Setup question type
         if (Constants.QUIZ_TYPE_MULTIPLE_CHOICE.equals(quiz.getType())) {
@@ -146,6 +193,16 @@ public class QuizActivity extends AppCompatActivity {
         } else if (Constants.QUIZ_TYPE_FILL_BLANK.equals(quiz.getType())) {
             setupFillBlank(quiz);
         }
+        
+        updateProgress();
+    }
+
+    /**
+     * Update progress bar
+     */
+    private void updateProgress() {
+        int progress = viewModel.getProgressPercentage();
+        progressBar.setProgress(progress);
     }
 
     /**
@@ -183,7 +240,16 @@ public class QuizActivity extends AppCompatActivity {
      * Kiểm tra đáp án
      */
     private void checkAnswer() {
-        Quiz quiz = quizzes.get(currentQuestionIndex);
+        if (isAnswerChecked) {
+            return;
+        }
+        
+        Integer currentPos = viewModel.getCurrentPosition().getValue();
+        if (currentPos == null || quizzes == null || currentPos >= quizzes.size()) {
+            return;
+        }
+        
+        Quiz quiz = quizzes.get(currentPos);
         String userAnswer = getUserAnswer(quiz);
 
         if (userAnswer == null || userAnswer.isEmpty()) {
@@ -191,10 +257,24 @@ public class QuizActivity extends AppCompatActivity {
             return;
         }
 
+        // Get selected option index for multiple choice
+        int selectedIndex = -1;
+        if (Constants.QUIZ_TYPE_MULTIPLE_CHOICE.equals(quiz.getType())) {
+            int selectedId = radioGroupOptions.getCheckedRadioButtonId();
+            for (int i = 0; i < radioGroupOptions.getChildCount(); i++) {
+                if (radioGroupOptions.getChildAt(i).getId() == selectedId) {
+                    selectedIndex = i;
+                    break;
+                }
+            }
+        }
+        
+        // Submit answer to ViewModel
+        viewModel.submitAnswer(selectedIndex);
+        
         boolean isCorrect = checkCorrectAnswer(quiz, userAnswer);
 
         if (isCorrect) {
-            correctAnswers++;
             NotificationHelper.showSuccess(this, "Đúng rồi! Tuyệt vời!", quiz.getXpReward());
         } else {
             NotificationHelper.showError(this, "Sai rồi!", quiz.getCorrectAnswer());
@@ -205,6 +285,7 @@ public class QuizActivity extends AppCompatActivity {
             tvQuestion.setText(tvQuestion.getText() + "\n\n💡 " + quiz.getExplanationVi());
         }
 
+        isAnswerChecked = true;
         btnCheckAnswer.setVisibility(View.GONE);
         btnNextQuestion.setVisibility(View.VISIBLE);
 
@@ -260,20 +341,20 @@ public class QuizActivity extends AppCompatActivity {
      * Chuyển sang câu hỏi tiếp theo
      */
     private void nextQuestion() {
-        currentQuestionIndex++;
-
-        if (currentQuestionIndex < totalQuestions) {
-            showQuestion();
-        } else {
-            // Quiz completed
-            showResult();
-        }
+        viewModel.nextQuiz();
     }
 
     /**
      * Hiển thị kết quả
      */
     private void showResult() {
+        Integer correctAnswers = viewModel.getCorrectAnswers().getValue();
+        Integer totalQuestions = viewModel.getTotalQuizzes().getValue();
+        
+        if (correctAnswers == null || totalQuestions == null) {
+            return;
+        }
+        
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(Constants.EXTRA_LESSON_ID, lessonId);
         intent.putExtra(Constants.EXTRA_LESSON_TITLE, lessonTitle);
