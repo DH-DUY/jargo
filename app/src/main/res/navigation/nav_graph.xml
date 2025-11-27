@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!-- Home Fragment - Màn hình chính -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.jargo.app.fragments.HomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home">
+        
+        <!-- Action: Navigate to Lesson List (Activity) -->
+        <action
+            android:id="@+id/action_home_to_lessonList"
+            app:destination="@id/lessonListActivity" />
+    </fragment>
+
+    <!-- Progress Fragment - Theo dõi tiến độ -->
+    <fragment
+        android:id="@+id/progressFragment"
+        android:name="com.jargo.app.fragments.ProgressFragment"
+        android:label="@string/nav_progress"
+        tools:layout="@layout/fragment_progress" />
+
+    <!-- Profile Fragment - Thông tin cá nhân -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.jargo.app.fragments.ProfileFragment"
+        android:label="@string/nav_profile"
+        tools:layout="@layout/fragment_profile">
+        
+        <!-- Action: Navigate to Settings (if needed) -->
+        <action
+            android:id="@+id/action_profile_to_auth"
+            app:destination="@id/authenticationActivity"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Activity Destinations -->
+    
+    <!-- Lesson List Activity -->
+    <activity
+        android:id="@+id/lessonListActivity"
+        android:name="com.jargo.app.activities.LessonListActivity"
+        android:label="Lessons"
+        tools:layout="@layout/activity_lesson_list">
+        
+        <!-- Arguments truyền vào -->
+        <argument
+            android:name="topicId"
+            app:argType="string" />
+        <argument
+            android:name="topicName"
+            app:argType="string" />
+    </activity>
+
+    <!-- Authentication Activity (for logout) -->
+    <activity
+        android:id="@+id/authenticationActivity"
+        android:name="com.jargo.app.activities.AuthenticationActivity"
+        android:label="Login" />
+
+</navigation>
