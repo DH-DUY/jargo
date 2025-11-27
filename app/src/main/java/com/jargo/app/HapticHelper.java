@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.os.VibratorManager;
 import android.view.View;
 
 /**
@@ -35,12 +36,12 @@ public class HapticHelper {
      * Heavy impact feedback (important action)
      */
     public static void heavyImpact(Context context) {
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator vibrator = getVibrator(context);
         if (vibrator != null && vibrator.hasVibrator()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
-                vibrator.vibrate(50);
+                vibrateCompat(vibrator, 50);
             }
         }
     }
@@ -49,13 +50,13 @@ public class HapticHelper {
      * Success vibration pattern (✓ animation)
      */
     public static void success(Context context) {
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator vibrator = getVibrator(context);
         if (vibrator != null && vibrator.hasVibrator()) {
+            long[] pattern = {0, 50, 50, 50}; // tick-tick pattern
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                long[] pattern = {0, 50, 50, 50}; // tick-tick pattern
                 vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
             } else {
-                vibrator.vibrate(new long[]{0, 50, 50, 50}, -1);
+                vibrateCompat(vibrator, pattern, -1);
             }
         }
     }
@@ -64,13 +65,13 @@ public class HapticHelper {
      * Error vibration pattern (✗ animation)
      */
     public static void error(Context context) {
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator vibrator = getVibrator(context);
         if (vibrator != null && vibrator.hasVibrator()) {
+            long[] pattern = {0, 100, 50, 100}; // bzz-bzz pattern
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                long[] pattern = {0, 100, 50, 100}; // bzz-bzz pattern
                 vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
             } else {
-                vibrator.vibrate(new long[]{0, 100, 50, 100}, -1);
+                vibrateCompat(vibrator, pattern, -1);
             }
         }
     }
@@ -79,13 +80,13 @@ public class HapticHelper {
      * Celebration vibration (confetti, achievement)
      */
     public static void celebration(Context context) {
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator vibrator = getVibrator(context);
         if (vibrator != null && vibrator.hasVibrator()) {
+            long[] pattern = {0, 30, 30, 30, 30, 50, 50, 100}; // crescendo
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                long[] pattern = {0, 30, 30, 30, 30, 50, 50, 100}; // crescendo
                 vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1));
             } else {
-                vibrator.vibrate(new long[]{0, 30, 30, 30, 30, 50, 50, 100}, -1);
+                vibrateCompat(vibrator, pattern, -1);
             }
         }
     }
@@ -111,5 +112,35 @@ public class HapticHelper {
         } else {
             lightTap(view);
         }
+    }
+
+    /**
+     * Get Vibrator instance with proper API level handling
+     */
+    private static Vibrator getVibrator(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            VibratorManager vibratorManager = (VibratorManager) context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
+            return vibratorManager != null ? vibratorManager.getDefaultVibrator() : null;
+        } else {
+            return (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        }
+    }
+
+    /**
+     * Vibrate with compatibility for older APIs
+     * Suppresses deprecation warning as we're handling it properly
+     */
+    @SuppressWarnings("deprecation")
+    private static void vibrateCompat(Vibrator vibrator, long milliseconds) {
+        vibrator.vibrate(milliseconds);
+    }
+
+    /**
+     * Vibrate with pattern - compatibility for older APIs
+     * Suppresses deprecation warning as we're handling it properly
+     */
+    @SuppressWarnings("deprecation")
+    private static void vibrateCompat(Vibrator vibrator, long[] pattern, int repeat) {
+        vibrator.vibrate(pattern, repeat);
     }
 }
