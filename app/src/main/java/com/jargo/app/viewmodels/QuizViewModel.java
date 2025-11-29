@@ -226,7 +226,7 @@ public class QuizViewModel extends ViewModel {
     /**
      * Save progress to Firebase
      */
-    public void saveProgress(String lessonId, SaveProgressCallback callback) {
+    public void saveProgress(String lessonId, int vocabularyCount, SaveProgressCallback callback) {
         Integer score = scoreLiveData.getValue();
         if (score == null) {
             callback.onError("No score available");
@@ -235,7 +235,7 @@ public class QuizViewModel extends ViewModel {
         
         isSavingProgressLiveData.setValue(true);
         
-        progressRepository.saveLessonProgress(lessonId, score, new ProgressRepository.SaveCallback() {
+        progressRepository.saveLessonProgress(lessonId, score, vocabularyCount, new ProgressRepository.SaveCallback() {
             @Override
             public void onSuccess() {
                 // Update user XP

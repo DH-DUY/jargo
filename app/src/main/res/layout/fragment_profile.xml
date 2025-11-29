@@ -188,6 +188,49 @@
                         app:trackTint="@color/primary" />
                 </LinearLayout>
 
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="8dp"
+                    android:background="@color/divider" />
+
+                <!-- Login History Button -->
+                <LinearLayout
+                    android:id="@+id/btnLoginHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_login"
+                        android:contentDescription="Lịch sử đăng nhập"
+                        app:tint="@color/text_secondary" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:text="Lịch sử đăng nhập"
+                        android:textSize="@dimen/text_size_body"
+                        android:textColor="@color/text_primary" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:contentDescription="Mở"
+                        app:tint="@color/text_secondary" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -246,6 +289,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_max="320dp"
             app:layout_constraintTop_toBottomOf="@id/layoutGuestActions"
+            tools:visibility="visible"
+            tools:ignore="ButtonStyle" />
+
+        <!-- Delete Account Button -->
+        <Button
+            android:id="@+id/btnDeleteAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Xóa tài khoản"
+            android:textSize="16sp"
+            android:textColor="#F44336"
+            android:background="@android:color/transparent"
+            android:textStyle="normal"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnLogout"
             tools:visibility="visible"
             tools:ignore="ButtonStyle" />
 

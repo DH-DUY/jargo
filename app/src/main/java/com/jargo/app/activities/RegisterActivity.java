@@ -132,6 +132,10 @@ public class RegisterActivity extends AppCompatActivity {
                             if (user.getDisplayName() != null) {
                                 prefsManager.saveUserName(user.getDisplayName());
                             }
+                            
+                            // Đánh dấu đã đăng nhập và hoàn thành onboarding
+                            prefsManager.setLoggedIn(true);
+                            prefsManager.setFirstLaunch(false);
 
                             NotificationHelper.showInfo(this, getString(R.string.register_success));
                             goToHome();
@@ -146,25 +150,31 @@ public class RegisterActivity extends AppCompatActivity {
      * Đăng ký tài khoản
      */
     private void register() {
+        String username = etEmail.getText().toString().trim().toLowerCase();
         String name = etName.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
         // Validate
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || 
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(name) || 
             TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
             NotificationHelper.showWarning(this, getString(R.string.register_error_empty));
             return;
         }
 
-        if (name.length() < Constants.MIN_NAME_LENGTH) {
-            NotificationHelper.showWarning(this, getString(R.string.register_error_name_short));
+        // Validate username
+        if (!isValidUsername(username)) {
+            NotificationHelper.showWarning(this, getString(R.string.register_error_username_short));
             return;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            NotificationHelper.showWarning(this, getString(R.string.login_error_invalid_email));
+        if (!username.matches("^[a-z0-9_]+$")) {
+            NotificationHelper.showWarning(this, getString(R.string.register_error_username_invalid));
+            return;
+        }
+
+        if (name.length() < Constants.MIN_NAME_LENGTH) {
+            NotificationHelper.showWarning(this, getString(R.string.register_error_name_short));
             return;
         }
 
@@ -178,12 +188,15 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        // Convert username to fake email
+        String fakeEmail = usernameToEmail(username);
+
         // Show loading
         loadingView.setVisibility(View.VISIBLE);
         btnRegister.setEnabled(false);
 
-        // Firebase register
-        auth.createUserWithEmailAndPassword(email, password)
+        // Firebase register with fake email
+        auth.createUserWithEmailAndPassword(fakeEmail, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Register success - update display name
@@ -202,7 +215,14 @@ public class RegisterActivity extends AppCompatActivity {
                                             // Save user info
                                             prefsManager.saveUserId(user.getUid());
                                             prefsManager.saveUserName(name);
-                                            prefsManager.saveUserEmail(email);
+                                            prefsManager.saveUserEmail(fakeEmail);
+                                            
+                                            // Save real username to Firebase Database
+                                            saveUsernameToDatabase(user.getUid(), username);
+                                            
+                                            // Đánh dấu đã đăng nhập và hoàn thành onboarding
+                                            prefsManager.setLoggedIn(true);
+                                            prefsManager.setFirstLaunch(false);
 
                                             NotificationHelper.showInfo(this, getString(R.string.register_success));
                                             goToHome();
@@ -237,5 +257,33 @@ public class RegisterActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Convert username to fake email for Firebase Auth
+     */
+    private String usernameToEmail(String username) {
+        return username.toLowerCase() + "@jargo.app";
+    }
+
+    /**
+     * Validate username format
+     * - 3-20 characters
+     * - Only lowercase letters, numbers, and underscore
+     */
+    private boolean isValidUsername(String username) {
+        return username.length() >= 3 && username.length() <= 20;
+    }
+
+    /**
+     * Save username to Firebase Realtime Database
+     */
+    private void saveUsernameToDatabase(String userId, String username) {
+        FirebaseManager.getInstance()
+                .getDatabaseReference()
+                .child("users")
+                .child(userId)
+                .child("username")
+                .setValue(username);
     }
 }

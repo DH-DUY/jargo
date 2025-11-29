@@ -78,6 +78,12 @@
             android:name=".activities.RegisterActivity"
             android:exported="false"
             android:theme="@style/Theme.Jargo" />
+        
+        <!-- LoginHistoryActivity - Lịch sử đăng nhập -->
+        <activity
+            android:name=".activities.LoginHistoryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Jargo" />
             
     </application>
 

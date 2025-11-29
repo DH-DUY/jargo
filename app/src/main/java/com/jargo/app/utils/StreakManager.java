@@ -1,11 +1,13 @@
 package com.jargo.app.utils;
 
 import android.content.Context;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -14,6 +16,7 @@ import java.util.Locale;
  */
 public class StreakManager {
 
+    private static final String TAG = "Jargo_StreakManager";
     private static StreakManager instance;
     private final SharedPrefsManager prefsManager;
     private final FirebaseManager firebaseManager;
@@ -38,11 +41,13 @@ public class StreakManager {
     public void updateStreak(StreakCallback callback) {
         String userId = prefsManager.getUserId();
         if (userId == null) {
+            Log.e(TAG, "updateStreak: User not logged in");
             callback.onError("User not logged in");
             return;
         }
 
         String today = dateFormat.format(new Date());
+        Log.d(TAG, "updateStreak: Starting streak update for date: " + today);
 
         // Load last login date và current streak
         firebaseManager.getDatabaseReference()
@@ -57,12 +62,19 @@ public class StreakManager {
                             currentStreak = snapshot.child("streak").getValue(Integer.class);
                         }
 
+                        Log.d(TAG, "Current streak: " + currentStreak + ", Last login: " + lastLoginDate);
+
                         int newStreak = calculateNewStreak(lastLoginDate, currentStreak, today);
                         int xpEarned = 0;
 
                         // Tính XP nếu streak tăng
                         if (newStreak > currentStreak) {
                             xpEarned = XPCalculator.calculateStreakXP(newStreak);
+                            Log.i(TAG, "Streak increased! New: " + newStreak + ", XP earned: " + xpEarned);
+                        } else if (newStreak < currentStreak) {
+                            Log.w(TAG, "Streak reset from " + currentStreak + " to " + newStreak);
+                        } else {
+                            Log.d(TAG, "Streak unchanged: " + newStreak);
                         }
 
                         // Final copy cho lambda
@@ -81,12 +93,19 @@ public class StreakManager {
                                 .child(userId)
                                 .child("streak")
                                 .setValue(newStreak)
-                                .addOnSuccessListener(aVoid -> callback.onSuccess(finalNewStreak, finalXpEarned))
-                                .addOnFailureListener(e -> callback.onError(e.getMessage()));
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.i(TAG, "Streak saved successfully: " + finalNewStreak);
+                                    callback.onSuccess(finalNewStreak, finalXpEarned);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e(TAG, "Failed to save streak: " + e.getMessage());
+                                    callback.onError(e.getMessage());
+                                });
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e(TAG, "Database error in updateStreak: " + error.getMessage());
                         callback.onError(error.getMessage());
                     }
                 });
@@ -94,39 +113,67 @@ public class StreakManager {
 
     /**
      * Tính streak mới dựa vào last login date
+     * Sử dụng Calendar API để tính chính xác số ngày
      */
     private int calculateNewStreak(String lastLoginDate, int currentStreak, String today) {
         if (lastLoginDate == null || lastLoginDate.isEmpty()) {
             // Lần đầu tiên đăng nhập
+            Log.d(TAG, "First time login, streak = 1");
             return 1;
         }
 
         if (lastLoginDate.equals(today)) {
             // Đã đăng nhập hôm nay rồi
+            Log.d(TAG, "Already logged in today, streak unchanged: " + currentStreak);
             return currentStreak;
         }
 
-        // Tính số ngày chênh lệch
+        // Tính số ngày chênh lệch với Calendar API
         try {
             Date lastDate = dateFormat.parse(lastLoginDate);
             Date todayDate = dateFormat.parse(today);
 
             if (lastDate != null && todayDate != null) {
-                long diffInMillis = todayDate.getTime() - lastDate.getTime();
+                // Sử dụng Calendar để tính số ngày chính xác
+                Calendar lastCal = Calendar.getInstance();
+                lastCal.setTime(lastDate);
+                lastCal.set(Calendar.HOUR_OF_DAY, 0);
+                lastCal.set(Calendar.MINUTE, 0);
+                lastCal.set(Calendar.SECOND, 0);
+                lastCal.set(Calendar.MILLISECOND, 0);
+
+                Calendar todayCal = Calendar.getInstance();
+                todayCal.setTime(todayDate);
+                todayCal.set(Calendar.HOUR_OF_DAY, 0);
+                todayCal.set(Calendar.MINUTE, 0);
+                todayCal.set(Calendar.SECOND, 0);
+                todayCal.set(Calendar.MILLISECOND, 0);
+
+                long diffInMillis = todayCal.getTimeInMillis() - lastCal.getTimeInMillis();
                 long diffInDays = diffInMillis / (1000 * 60 * 60 * 24);
+
+                Log.d(TAG, "Days difference: " + diffInDays + " (Last: " + lastLoginDate + ", Today: " + today + ")");
 
                 if (diffInDays == 1) {
                     // Đăng nhập ngày hôm qua → Streak tăng
-                    return currentStreak + 1;
+                    int newStreak = currentStreak + 1;
+                    Log.i(TAG, "Consecutive day! Streak: " + currentStreak + " → " + newStreak);
+                    return newStreak;
                 } else if (diffInDays > 1) {
                     // Đăng nhập cách > 1 ngày → Reset streak
+                    Log.w(TAG, "Missed days! Streak reset: " + currentStreak + " → 1");
                     return 1;
+                } else if (diffInDays == 0) {
+                    // Same day (shouldn't happen due to check above)
+                    return currentStreak;
                 }
             }
         } catch (Exception e) {
+            Log.e(TAG, "Error calculating streak", e);
             e.printStackTrace();
         }
 
+        Log.w(TAG, "Fallback to streak = 1");
         return 1; // Default
     }
 

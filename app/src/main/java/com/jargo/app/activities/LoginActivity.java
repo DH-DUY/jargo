@@ -21,11 +21,17 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.jargo.app.MainActivity;
 import com.jargo.app.R;
+import com.jargo.app.repositories.LoginHistoryRepository;
 import com.jargo.app.utils.FirebaseManager;
 import com.jargo.app.utils.NotificationHelper;
 import com.jargo.app.utils.SharedPrefsManager;
+import com.jargo.app.activities.OnboardingActivity;
 
 /**
  * LoginActivity - Màn hình đăng nhập
@@ -41,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth auth;
     private SharedPrefsManager prefsManager;
+    private LoginHistoryRepository loginHistoryRepository;
     private ActivityResultLauncher<Intent> googleSignInLauncher;
 
     @Override
@@ -50,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseManager.getInstance().getAuth();
         prefsManager = SharedPrefsManager.getInstance(this);
+        loginHistoryRepository = LoginHistoryRepository.getInstance();
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -107,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         } catch (ApiException e) {
             loadingView.setVisibility(View.GONE);
-            NotificationHelper.showError(this, "Google Sign-In thất bại", e.getMessage());
+            NotificationHelper.showWarning(this, "Google Sign-In thất bại: " + e.getMessage());
         }
     }
 
@@ -123,17 +131,14 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            // Save user info
-                            prefsManager.saveUserId(user.getUid());
-                            prefsManager.saveUserEmail(user.getEmail());
-                            if (user.getDisplayName() != null) {
-                                prefsManager.saveUserName(user.getDisplayName());
-                            }
-
-                            NotificationHelper.showInfo(this, getString(R.string.login_success));
-                            goToHome();
+                            // Check blacklist first, then proceed
+                            checkBlacklistAndProceed(user, "google");
                         }
                     } else {
+                        // Log login failure
+                        String tempUserId = etEmail.getText().toString(); // Fallback
+                        loginHistoryRepository.logLogin(this, tempUserId, "google", false, null);
+                        
                         NotificationHelper.showError(this, "Xác thực thất bại", "Vui lòng thử lại");
                     }
                 });
@@ -143,26 +148,30 @@ public class LoginActivity extends AppCompatActivity {
      * Đăng nhập
      */
     private void login() {
-        String email = etEmail.getText().toString().trim();
+        String username = etEmail.getText().toString().trim().toLowerCase();
         String password = etPassword.getText().toString().trim();
 
         // Validate
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+        if (username.isEmpty() || password.isEmpty()) {
             NotificationHelper.showWarning(this, getString(R.string.login_error_empty));
             return;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            NotificationHelper.showWarning(this, getString(R.string.login_error_invalid_email));
+        // Validate username format (3-20 chars, alphanumeric + underscore)
+        if (!isValidUsername(username)) {
+            NotificationHelper.showWarning(this, getString(R.string.login_error_invalid_username));
             return;
         }
+
+        // Convert username to fake email for Firebase Auth
+        String fakeEmail = usernameToEmail(username);
 
         // Show loading
         loadingView.setVisibility(View.VISIBLE);
         btnLogin.setEnabled(false);
 
-        // Firebase login
-        auth.signInWithEmailAndPassword(email, password)
+        // Firebase login with fake email
+        auth.signInWithEmailAndPassword(fakeEmail, password)
                 .addOnCompleteListener(this, task -> {
                     loadingView.setVisibility(View.GONE);
                     btnLogin.setEnabled(true);
@@ -171,18 +180,13 @@ public class LoginActivity extends AppCompatActivity {
                         // Login success
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            // Save user info
-                            prefsManager.saveUserId(user.getUid());
-                            prefsManager.saveUserEmail(user.getEmail());
-                            if (user.getDisplayName() != null) {
-                                prefsManager.saveUserName(user.getDisplayName());
-                            }
-
-                            NotificationHelper.showInfo(this, getString(R.string.login_success));
-                            goToHome();
+                            // Check blacklist first, then proceed
+                            checkBlacklistAndProceed(user, "email");
                         }
                     } else {
-                        // Login failed
+                        // Login failed - Log with username as fallback ID
+                        loginHistoryRepository.logLogin(this, username, "username", false, null);
+                        
                         String errorMsg = task.getException() != null 
                                 ? task.getException().getMessage() 
                                 : "Đăng nhập thất bại";
@@ -203,6 +207,12 @@ public class LoginActivity extends AppCompatActivity {
      * Bỏ qua đăng nhập (Continue as Guest)
      */
     private void skipLogin() {
+        // Sign out khỏi Firebase để đảm bảo guest mode
+        auth.signOut();
+        
+        // Đảm bảo không set isLoggedIn = true
+        prefsManager.setLoggedIn(false);
+        
         goToHome();
     }
 
@@ -214,5 +224,151 @@ public class LoginActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Convert username to fake email for Firebase Auth
+     */
+    private String usernameToEmail(String username) {
+        return username.toLowerCase() + "@jargo.app";
+    }
+
+    /**
+     * Validate username format
+     * - 3-20 characters
+     * - Only lowercase letters, numbers, and underscore
+     */
+    private boolean isValidUsername(String username) {
+        if (username.length() < 3 || username.length() > 20) {
+            return false;
+        }
+        return username.matches("^[a-z0-9_]+$");
+    }
+
+    /**
+     * Check if user is blacklisted, then proceed with login or create new account
+     */
+    private void checkBlacklistAndProceed(FirebaseUser user, String loginMethod) {
+        DatabaseReference blacklistRef = FirebaseManager.getInstance()
+                .getDatabaseReference()
+                .child("deletedUsers")
+                .child(user.getUid());
+        
+        blacklistRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // User was deleted - allow creating new account
+                    handleDeletedUserReturning(user, loginMethod);
+                } else {
+                    // User is ok - proceed with login
+                    proceedWithLogin(user, loginMethod);
+                }
+            }
+            
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // On error, allow login (fail-open)
+                proceedWithLogin(user, loginMethod);
+            }
+        });
+    }
+    
+    /**
+     * Proceed with login after blacklist check passed
+     */
+    private void proceedWithLogin(FirebaseUser user, String loginMethod) {
+        // Save user info
+        prefsManager.saveUserId(user.getUid());
+        prefsManager.saveUserEmail(user.getEmail());
+        if (user.getDisplayName() != null) {
+            prefsManager.saveUserName(user.getDisplayName());
+        }
+        
+        // Load user data from Firebase
+        loadUserProfile(user.getUid());
+        
+        // Đánh dấu đã đăng nhập và hoàn thành onboarding
+        prefsManager.setLoggedIn(true);
+        prefsManager.setFirstLaunch(false);
+
+        // Log login success
+        loginHistoryRepository.logLogin(this, user.getUid(), loginMethod, true, null);
+
+        NotificationHelper.showInfo(this, getString(R.string.login_success));
+        goToHome();
+    }
+    
+    /**
+     * Handle deleted user returning - allow creating new account
+     */
+    private void handleDeletedUserReturning(FirebaseUser user, String loginMethod) {
+        // Remove from blacklist
+        FirebaseManager.getInstance()
+                .getDatabaseReference()
+                .child("deletedUsers")
+                .child(user.getUid())
+                .removeValue();
+        
+        // Save basic info
+        prefsManager.saveUserId(user.getUid());
+        prefsManager.saveUserEmail(user.getEmail());
+        if (user.getDisplayName() != null) {
+            prefsManager.saveUserName(user.getDisplayName());
+        }
+        
+        // Mark as logged in but NOT finished onboarding (will go to onboarding)
+        prefsManager.setLoggedIn(true);
+        prefsManager.setFirstLaunch(true); // Trigger onboarding
+        
+        // Log login
+        loginHistoryRepository.logLogin(this, user.getUid(), loginMethod, true, null);
+        
+        // Go directly to onboarding
+        goToOnboarding();
+    }
+    
+    /**
+     * Go to onboarding
+     */
+    private void goToOnboarding() {
+        Intent intent = new Intent(this, OnboardingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+    
+    /**
+     * Load user profile data
+     */
+    private void loadUserProfile(String userId) {
+        DatabaseReference userRef = FirebaseManager.getInstance()
+                .getDatabaseReference()
+                .child("users")
+                .child(userId);
+        
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Load field
+                    String field = snapshot.child("field").getValue(String.class);
+                    if (field != null && !field.isEmpty()) {
+                        prefsManager.saveUserField(field);
+                    }
+                    
+                    // Load level
+                    String level = snapshot.child("level").getValue(String.class);
+                    if (level != null && !level.isEmpty()) {
+                        prefsManager.saveUserLevel(level);
+                    }
+                }
+            }
+            
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Ignore error, non-critical data
+            }
+        });
     }
 }

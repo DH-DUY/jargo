@@ -5,13 +5,13 @@ package com.jargo.app.utils;
  */
 public class XPCalculator {
 
-    // XP rewards cho các hoạt động
-    public static final int XP_LEARN_VOCABULARY = 5;
-    public static final int XP_COMPLETE_LESSON = 20;
-    public static final int XP_QUIZ_CORRECT_ANSWER = 10;
-    public static final int XP_QUIZ_PERFECT_BONUS = 50;
-    public static final int XP_DAILY_STREAK = 10;
-    public static final int XP_WEEKLY_STREAK_BONUS = 25;
+    // XP rewards cho các hoạt động (Đã điều chỉnh để cân bằng)
+    public static final int XP_LEARN_VOCABULARY = 3;        // Giảm từ 5 → 3
+    public static final int XP_COMPLETE_LESSON = 15;        // Giảm từ 20 → 15
+    public static final int XP_QUIZ_CORRECT_ANSWER = 8;     // Giảm từ 10 → 8
+    public static final int XP_QUIZ_PERFECT_BONUS = 20;     // Giảm từ 50 → 20
+    public static final int XP_DAILY_STREAK = 10;           // Giữ nguyên
+    public static final int XP_WEEKLY_STREAK_BONUS = 25;    // Giữ nguyên
 
     /**
      * Tính XP cho việc học từ vựng

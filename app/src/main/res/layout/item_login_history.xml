@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header: Date/Time và Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivStatus"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_check_circle"
+                android:contentDescription="Status" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="28/11/2025"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="?android:textColorPrimary" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13:47:25"
+                    android:textSize="14sp"
+                    android:textColor="?android:textColorSecondary" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thành công"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/divider" />
+
+        <!-- Device Info -->
+        <TextView
+            android:id="@+id/tvDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Samsung Galaxy S21 (Android 13)"
+            android:textSize="14sp"
+            android:textColor="?android:textColorPrimary"
+            android:drawableStart="@drawable/ic_phone"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical" />
+
+        <!-- Login Method -->
+        <TextView
+            android:id="@+id/tvMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Phương thức: Email"
+            android:textSize="14sp"
+            android:textColor="?android:textColorSecondary"
+            android:drawableStart="@drawable/ic_login"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical" />
+
+        <!-- App Version -->
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="App v1.0.0"
+            android:textSize="12sp"
+            android:textColor="?android:textColorSecondary"
+            android:drawableStart="@drawable/ic_app"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

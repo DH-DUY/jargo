@@ -2,6 +2,7 @@ package com.jargo.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,6 +24,8 @@ import com.jargo.app.utils.XPCalculator;
  */
 public class ResultActivity extends AppCompatActivity {
 
+    private static final String TAG = "Jargo_ResultActivity";
+
     private TextView tvScore;
     private TextView tvAccuracy;
     private TextView tvXPEarned;
@@ -39,6 +42,7 @@ public class ResultActivity extends AppCompatActivity {
     private int quizScore;
     private int quizTotal;
     private int totalXP = 0;
+    private int streakXP = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +73,7 @@ public class ResultActivity extends AppCompatActivity {
         // Display results
         displayResults();
 
-        // Save progress
-        saveProgress();
-
-        // Update streak
+        // Update streak first, then save progress with total XP including streak bonus
         updateStreak();
 
         // Button listener
@@ -119,27 +120,32 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     /**
-     * Lưu progress vào Firebase
+     * Lưu progress vào Firebase (bao gồm cả XP từ streak)
      */
     private void saveProgress() {
         loadingView.setVisibility(View.VISIBLE);
 
         int accuracy = quizTotal > 0 ? (int) ((quizScore * 100.0) / quizTotal) : 0;
+        int finalTotalXP = totalXP + streakXP; // Tổng XP bao gồm streak bonus
 
-        progressRepository.saveLessonProgress(lessonId, accuracy, new ProgressRepository.SaveCallback() {
+        Log.d(TAG, "Saving progress - Lesson XP: " + totalXP + ", Streak XP: " + streakXP + ", Total: " + finalTotalXP);
+
+        progressRepository.saveLessonProgress(lessonId, accuracy, vocabularyCount, new ProgressRepository.SaveCallback() {
             @Override
             public void onSuccess() {
-                // Update user XP
-                progressRepository.updateUserXP(totalXP, new ProgressRepository.SaveCallback() {
+                // Update user XP with total including streak
+                progressRepository.updateUserXP(finalTotalXP, new ProgressRepository.SaveCallback() {
                     @Override
                     public void onSuccess() {
                         loadingView.setVisibility(View.GONE);
+                        Log.i(TAG, "Progress saved successfully with total XP: " + finalTotalXP);
                         NotificationHelper.showInfo(ResultActivity.this, "Đã lưu tiến độ!");
                     }
 
                     @Override
                     public void onError(String error) {
                         loadingView.setVisibility(View.GONE);
+                        Log.e(TAG, "Error saving XP: " + error);
                         NotificationHelper.showError(ResultActivity.this, "Lỗi lưu XP", error);
                     }
                 });
@@ -148,30 +154,47 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 loadingView.setVisibility(View.GONE);
+                Log.e(TAG, "Error saving progress: " + error);
                 NotificationHelper.showError(ResultActivity.this, "Lỗi lưu progress", error);
             }
         });
     }
 
     /**
-     * Cập nhật streak
+     * Cập nhật streak và sau đó lưu progress
      */
     private void updateStreak() {
+        Log.d(TAG, "Starting streak update");
+        
         streakManager.updateStreak(new StreakManager.StreakCallback() {
             @Override
             public void onSuccess(int newStreak, int xpEarned) {
+                Log.i(TAG, "Streak update success - Streak: " + newStreak + ", XP earned: " + xpEarned);
+                
                 tvStreak.setText(getString(R.string.result_streak_format, newStreak));
                 
+                // Lưu streak XP để cộng vào tổng khi save progress
+                streakXP = xpEarned;
+                
                 if (xpEarned > 0) {
-                    totalXP += xpEarned;
-                    tvXPEarned.setText(getString(R.string.result_xp_format, totalXP));
-                    NotificationHelper.showSuccess(ResultActivity.this, getString(R.string.result_streak_bonus, xpEarned), xpEarned);
+                    // Cập nhật UI để hiển thị tổng XP
+                    int displayTotal = totalXP + streakXP;
+                    tvXPEarned.setText(getString(R.string.result_xp_format, displayTotal));
+                    NotificationHelper.showSuccess(ResultActivity.this, 
+                        getString(R.string.result_streak_bonus, xpEarned), xpEarned);
                 }
+                
+                // Sau khi update streak, mới save progress
+                saveProgress();
             }
 
             @Override
             public void onError(String error) {
+                Log.e(TAG, "Streak update error: " + error);
                 tvStreak.setText(getString(R.string.result_streak_format, 0));
+                
+                // Vẫn save progress dù streak lỗi
+                saveProgress();
             }
         });
     }

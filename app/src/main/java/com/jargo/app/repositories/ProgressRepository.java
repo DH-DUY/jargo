@@ -37,7 +37,7 @@ public class ProgressRepository {
     /**
      * Lưu tiến độ hoàn thành lesson
      */
-    public void saveLessonProgress(String lessonId, int quizScore, SaveCallback callback) {
+    public void saveLessonProgress(String lessonId, int quizScore, int vocabularyCount, SaveCallback callback) {
         String userId = prefsManager.getUserId();
         if (userId == null) {
             callback.onError("User not logged in");
@@ -50,6 +50,7 @@ public class ProgressRepository {
         progress.setCompleted(true);
         progress.setCompletedAt(System.currentTimeMillis());
         progress.setQuizScore(quizScore);
+        progress.setVocabularyMastered(vocabularyCount);
 
         firebaseManager.getDatabaseReference()
                 .child(Constants.DB_PROGRESS)

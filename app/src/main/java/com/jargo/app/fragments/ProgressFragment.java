@@ -1,6 +1,7 @@
 package com.jargo.app.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.jargo.app.repositories.ProgressRepository;
 import com.jargo.app.utils.Constants;
 import com.jargo.app.utils.FirebaseManager;
 import com.jargo.app.utils.SharedPrefsManager;
+import com.jargo.app.utils.StreakManager;
+import com.jargo.app.utils.XPCalculator;
 import java.util.Map;
 
 /**
@@ -25,6 +28,9 @@ import java.util.Map;
  */
 public class ProgressFragment extends Fragment {
 
+    private static final String TAG = "Jargo_ProgressFragment";
+
+    private TextView tvLevel;
     private TextView tvTotalXP;
     private TextView tvStreak;
     private TextView tvLessonsCompleted;
@@ -33,6 +39,7 @@ public class ProgressFragment extends Fragment {
     private View loadingView;
 
     private ProgressRepository progressRepository;
+    private StreakManager streakManager;
     private SharedPrefsManager prefsManager;
 
     public ProgressFragment() {
@@ -46,8 +53,10 @@ public class ProgressFragment extends Fragment {
 
         prefsManager = SharedPrefsManager.getInstance(requireContext());
         progressRepository = ProgressRepository.getInstance(prefsManager);
+        streakManager = StreakManager.getInstance(requireContext());
 
         // Bind views
+        tvLevel = view.findViewById(R.id.tvLevel);
         tvTotalXP = view.findViewById(R.id.tvTotalXP);
         tvStreak = view.findViewById(R.id.tvStreak);
         tvLessonsCompleted = view.findViewById(R.id.tvLessonsCompleted);
@@ -57,6 +66,7 @@ public class ProgressFragment extends Fragment {
         // Load data từ Firebase
         loadProgress();
         loadUserXP();
+        loadStreak();
 
         return view;
     }
@@ -88,11 +98,9 @@ public class ProgressFragment extends Fragment {
                 }
 
                 // Update UI
+                Log.d(TAG, "Progress loaded - Lessons: " + completedLessons + ", Vocabs: " + totalVocabs);
                 tvLessonsCompleted.setText(completedLessons + " bài học");
                 tvVocabsLearned.setText(totalVocabs + " từ vựng");
-                
-                // Streak (TODO: implement from StreakManager)
-                tvStreak.setText("0 ngày");
             }
 
             @Override
@@ -101,10 +109,10 @@ public class ProgressFragment extends Fragment {
                     loadingView.setVisibility(View.GONE);
                 }
                 
+                Log.e(TAG, "Error loading progress: " + error);
                 // Show default values on error
                 tvLessonsCompleted.setText("0 bài học");
                 tvVocabsLearned.setText("0 từ vựng");
-                tvStreak.setText("0 ngày");
             }
         });
     }
@@ -130,23 +138,59 @@ public class ProgressFragment extends Fragment {
                         Integer xp = snapshot.getValue(Integer.class);
                         if (xp != null) {
                             tvTotalXP.setText(xp + " XP");
+                            updateLevel(xp);
                         } else {
                             tvTotalXP.setText("0 XP");
+                            updateLevel(0);
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         tvTotalXP.setText("0 XP");
+                        updateLevel(0);
                     }
                 });
+    }
+
+    /**
+     * Cập nhật hiển thị level dựa trên XP
+     */
+    private void updateLevel(int totalXP) {
+        int level = XPCalculator.calculateLevel(totalXP);
+        String levelName = XPCalculator.getLevelName(level);
+        tvLevel.setText("Level " + level + ": " + levelName);
+        Log.d(TAG, "Level updated - Level: " + level + ", Name: " + levelName + ", XP: " + totalXP);
+    }
+
+    /**
+     * Load streak từ StreakManager
+     */
+    private void loadStreak() {
+        Log.d(TAG, "Loading streak...");
+        
+        streakManager.getCurrentStreak(new StreakManager.StreakLoadCallback() {
+            @Override
+            public void onSuccess(int streak) {
+                Log.i(TAG, "Streak loaded: " + streak);
+                tvStreak.setText(streak + " ngày");
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e(TAG, "Error loading streak: " + error);
+                tvStreak.setText("0 ngày");
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         // Refresh data khi quay lại fragment
+        Log.d(TAG, "onResume - Refreshing data");
         loadProgress();
         loadUserXP();
+        loadStreak();
     }
 }

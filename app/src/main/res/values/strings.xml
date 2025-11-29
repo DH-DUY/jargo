@@ -56,6 +56,8 @@
     <!-- Profile -->
     <string name="profile_title">Cá nhân</string>
     <string name="profile_avatar">Avatar người dùng</string>
+    <string name="profile_guest">Khách</string>
+    <string name="profile_create_account">Tạo tài khoản để lưu tiến độ</string>
     <string name="profile_edit">Chỉnh sửa hồ sơ</string>
     <string name="profile_settings">Cài đặt</string>
     <string name="profile_logout">Đăng xuất</string>
@@ -152,38 +154,36 @@
     <string name="auth_subtitle">Chọn cách bạn muốn bắt đầu</string>
     <string name="btn_google_sign_in">Đăng nhập với Google</string>
     <string name="btn_continue_as_guest">Tiếp tục với tư cách khách</string>
-    <string name="btn_email_login">Đăng nhập bằng Email</string>
+    <string name="btn_email_login">Đăng nhập với JARGO</string>
     
     <!-- Login -->
     <string name="login_title">Đăng nhập</string>
-    <string name="login_email_hint">Email</string>
+    <string name="login_username_hint">Tên đăng nhập</string>
     <string name="login_password_hint">Mật khẩu</string>
     <string name="btn_login">Đăng nhập</string>
     <string name="login_register_link">Chưa có tài khoản? Đăng ký ngay</string>
     <string name="login_skip">Tiếp tục với tư cách khách</string>
     <string name="login_success">Đăng nhập thành công!</string>
-    <string name="login_error_empty">Vui lòng nhập email và mật khẩu</string>
-    <string name="login_error_invalid_email">Email không hợp lệ</string>
+    <string name="login_error_empty">Vui lòng nhập tên đăng nhập và mật khẩu</string>
+    <string name="login_error_invalid_username">Tên đăng nhập không hợp lệ (3-20 ký tự, chỉ chữ và số)</string>
     
     <!-- Register -->
     <string name="register_title">Đăng ký tài khoản</string>
-    <string name="btn_google_sign_up">Đăng ký với Google</string>
+    <string name="btn_google_sign_up">Đăng nhập với Google</string>
     <string name="or">Hoặc</string>
+    <string name="register_username_hint">Tên đăng nhập</string>
     <string name="register_name_hint">Họ và tên</string>
-    <string name="register_email_hint">Email</string>
     <string name="register_password_hint">Mật khẩu (tối thiểu 6 ký tự)</string>
     <string name="register_confirm_password_hint">Xác nhận mật khẩu</string>
     <string name="btn_register">Đăng ký</string>
     <string name="register_login_link">Đã có tài khoản? Đăng nhập</string>
     <string name="register_success">Đăng ký thành công!</string>
     <string name="register_error_empty">Vui lòng điền đầy đủ thông tin</string>
+    <string name="register_error_username_short">Tên đăng nhập phải có 3-20 ký tự</string>
+    <string name="register_error_username_invalid">Tên đăng nhập chỉ chứa chữ, số và dấu gạch dưới</string>
     <string name="register_error_name_short">Tên phải có ít nhất 2 ký tự</string>
-    <string name="register_error_password_short">Mật khẩu phải có ít nhất 6 ký tự</string>
     <string name="register_error_password_mismatch">Mật khẩu không khớp</string>
-    
-    <!-- Profile -->
-    <string name="profile_guest">Khách</string>
-    <string name="profile_create_account">Tạo tài khoản để lưu tiến độ</string>
+    <string name="register_error_password_short">Mật khẩu phải có ít nhất 6 ký tự</string>
     <string name="btn_create_account">Tạo tài khoản</string>
     <string name="btn_sign_in">Đăng nhập</string>
     

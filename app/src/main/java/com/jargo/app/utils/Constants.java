@@ -13,6 +13,7 @@ public class Constants {
     public static final String DB_VOCABULARIES = "vocabularies";
     public static final String DB_QUIZZES = "quizzes";
     public static final String DB_PROGRESS = "progress";
+    public static final String DB_LOGIN_HISTORY = "loginHistory";
     
     // SharedPreferences Keys
     public static final String PREF_NAME = "JargoPrefs";
