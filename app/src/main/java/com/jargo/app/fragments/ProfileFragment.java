@@ -13,6 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.jargo.app.R;
 import com.jargo.app.ThemeHelper;
@@ -44,6 +47,7 @@ public class ProfileFragment extends Fragment {
 
     private SharedPrefsManager prefsManager;
     private FirebaseManager firebaseManager;
+    private GoogleSignInClient googleSignInClient;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -56,6 +60,13 @@ public class ProfileFragment extends Fragment {
 
         prefsManager = SharedPrefsManager.getInstance(requireContext());
         firebaseManager = FirebaseManager.getInstance();
+        
+        // Configure Google Sign In client for sign out
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
 
         // Bind views
         tvUserName = view.findViewById(R.id.tvUserName);
@@ -225,6 +236,9 @@ public class ProfileFragment extends Fragment {
                 .create();
         loadingDialog.show();
 
+        // Đăng xuất Google trước để clear cache
+        googleSignInClient.signOut();
+        
         // Xóa dữ liệu từ Firebase
         deleteUserData(userId, () -> {
             // Xóa Firebase Auth account
@@ -275,33 +289,42 @@ public class ProfileFragment extends Fragment {
      * Xóa toàn bộ dữ liệu của user từ Firebase
      */
     private void deleteUserData(String userId, Runnable onComplete) {
-        // Thêm vào blacklist để ngăn đăng nhập lại
+        // Đếm số tác vụ xóa cần hoàn thành
+        final int[] tasksRemaining = {4}; // 4 tasks: blacklist, users, progress, loginHistory
+        
+        Runnable checkComplete = () -> {
+            tasksRemaining[0]--;
+            if (tasksRemaining[0] == 0 && onComplete != null) {
+                onComplete.run();
+            }
+        };
+
+        // 1. Thêm vào blacklist để ngăn đăng nhập lại
         firebaseManager.getDatabaseReference()
                 .child("deletedUsers")
                 .child(userId)
-                .setValue(System.currentTimeMillis());
+                .setValue(System.currentTimeMillis())
+                .addOnCompleteListener(task -> checkComplete.run());
 
-        // Xóa user node
+        // 2. Xóa user node
         firebaseManager.getDatabaseReference()
                 .child(Constants.DB_USERS)
                 .child(userId)
-                .removeValue();
+                .removeValue()
+                .addOnCompleteListener(task -> checkComplete.run());
 
-        // Xóa progress
+        // 3. Xóa progress
         firebaseManager.getDatabaseReference()
                 .child(Constants.DB_PROGRESS)
                 .child(userId)
-                .removeValue();
+                .removeValue()
+                .addOnCompleteListener(task -> checkComplete.run());
 
-        // Xóa login history
+        // 4. Xóa login history
         firebaseManager.getDatabaseReference()
                 .child("loginHistory")
                 .child(userId)
                 .removeValue()
-                .addOnCompleteListener(task -> {
-                    if (onComplete != null) {
-                        onComplete.run();
-                    }
-                });
+                .addOnCompleteListener(task -> checkComplete.run());
     }
 }

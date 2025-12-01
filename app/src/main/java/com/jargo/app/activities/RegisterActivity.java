@@ -25,6 +25,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.jargo.app.MainActivity;
 import com.jargo.app.R;
+import com.jargo.app.activities.OnboardingActivity;
 import com.jargo.app.utils.Constants;
 import com.jargo.app.utils.FirebaseManager;
 import com.jargo.app.utils.NotificationHelper;
@@ -220,12 +221,12 @@ public class RegisterActivity extends AppCompatActivity {
                                             // Save real username to Firebase Database
                                             saveUsernameToDatabase(user.getUid(), username);
                                             
-                                            // Đánh dấu đã đăng nhập và hoàn thành onboarding
+                                            // Mark as logged in but need onboarding (new user)
                                             prefsManager.setLoggedIn(true);
-                                            prefsManager.setFirstLaunch(false);
+                                            prefsManager.setFirstLaunch(true); // New user needs onboarding
 
                                             NotificationHelper.showInfo(this, getString(R.string.register_success));
-                                            goToHome();
+                                            goToOnboarding();
                                         }
                                     });
                         }
@@ -254,6 +255,16 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void goToHome() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Đi đến Onboarding
+     */
+    private void goToOnboarding() {
+        Intent intent = new Intent(this, OnboardingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

@@ -285,18 +285,16 @@ public class LoginActivity extends AppCompatActivity {
             prefsManager.saveUserName(user.getDisplayName());
         }
         
-        // Load user data from Firebase
-        loadUserProfile(user.getUid());
-        
-        // Đánh dấu đã đăng nhập và hoàn thành onboarding
+        // Mark as logged in (but don't set firstLaunch yet)
         prefsManager.setLoggedIn(true);
-        prefsManager.setFirstLaunch(false);
 
         // Log login success
         loginHistoryRepository.logLogin(this, user.getUid(), loginMethod, true, null);
 
         NotificationHelper.showInfo(this, getString(R.string.login_success));
-        goToHome();
+        
+        // Load user data from Firebase and decide where to go
+        loadUserProfileAndNavigate(user.getUid());
     }
     
     /**
@@ -310,7 +308,10 @@ public class LoginActivity extends AppCompatActivity {
                 .child(user.getUid())
                 .removeValue();
         
-        // Save basic info
+        // CRITICAL: Clear ALL local data first to avoid loading old cache
+        prefsManager.clearAll();
+        
+        // Save basic info for new account
         prefsManager.saveUserId(user.getUid());
         prefsManager.saveUserEmail(user.getEmail());
         if (user.getDisplayName() != null) {
@@ -339,9 +340,9 @@ public class LoginActivity extends AppCompatActivity {
     }
     
     /**
-     * Load user profile data
+     * Load user profile data and navigate to appropriate screen
      */
-    private void loadUserProfile(String userId) {
+    private void loadUserProfileAndNavigate(String userId) {
         DatabaseReference userRef = FirebaseManager.getInstance()
                 .getDatabaseReference()
                 .child("users")
@@ -351,6 +352,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    // User has data - existing user with profile
                     // Load field
                     String field = snapshot.child("field").getValue(String.class);
                     if (field != null && !field.isEmpty()) {
@@ -362,12 +364,27 @@ public class LoginActivity extends AppCompatActivity {
                     if (level != null && !level.isEmpty()) {
                         prefsManager.saveUserLevel(level);
                     }
+                    
+                    // User has completed onboarding before
+                    prefsManager.setFirstLaunch(false);
+                    
+                    // Go to Home
+                    goToHome();
+                } else {
+                    // User has NO data - new account or deleted account
+                    // Need to go through onboarding
+                    prefsManager.setFirstLaunch(true);
+                    
+                    // Redirect to onboarding
+                    goToOnboarding();
                 }
             }
             
             @Override
             public void onCancelled(DatabaseError error) {
-                // Ignore error, non-critical data
+                // On error, assume new user and go to onboarding
+                prefsManager.setFirstLaunch(true);
+                goToOnboarding();
             }
         });
     }
