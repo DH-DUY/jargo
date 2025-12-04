@@ -37,4 +37,27 @@
     <!-- Gradients (Reference) -->
     <color name="gradient_start">#2979FF</color>
     <color name="gradient_end">#0D47A1</color>
+    
+    <!-- XP & Gamification -->
+    <color name="xp_gold">#FFB300</color>
+    <color name="success_green">#4CAF50</color>
+    <color name="error_red">#F44336</color>
+    
+    <!-- Difficulty Colors -->
+    <color name="difficulty_easy">#4CAF50</color>
+    <color name="difficulty_medium">#FF9800</color>
+    <color name="difficulty_hard">#F44336</color>
+    
+    <!-- Chip Colors -->
+    <color name="chip_vocabulary_bg">#E3F2FD</color>
+    <color name="chip_vocabulary_text">#1565C0</color>
+    
+    <!-- Streak Card Colors -->
+    <color name="streak_gradient_start">#FF6B35</color>
+    <color name="streak_gradient_center">#F7931E</color>
+    <color name="streak_gradient_end">#FFAA00</color>
+    <color name="streak_text">#FFFFFF</color>
+    <color name="streak_milestone">#FFD700</color>
+    <color name="streak_progress_bg">#40FFFFFF</color>
+    
 </resources>

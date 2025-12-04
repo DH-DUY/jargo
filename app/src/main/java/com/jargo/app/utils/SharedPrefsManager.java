@@ -128,6 +128,7 @@ public class SharedPrefsManager {
             .remove(Constants.PREF_USER_FIELD)
             .remove(Constants.PREF_USER_LEVEL)
             .putBoolean(Constants.PREF_IS_LOGGED_IN, false)
+            .putBoolean(Constants.PREF_IS_FIRST_LAUNCH, true)  // Reset onboarding flag
             .apply();
     }
 }

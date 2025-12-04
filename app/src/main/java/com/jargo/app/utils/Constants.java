@@ -14,6 +14,8 @@ public class Constants {
     public static final String DB_QUIZZES = "quizzes";
     public static final String DB_PROGRESS = "progress";
     public static final String DB_LOGIN_HISTORY = "loginHistory";
+    public static final String DB_DEBUG_CHALLENGES = "debugChallenges";
+    public static final String DB_USER_PROGRESS = "userProgress";
     
     // SharedPreferences Keys
     public static final String PREF_NAME = "JargoPrefs";
@@ -35,6 +37,9 @@ public class Constants {
     public static final String EXTRA_VOCABULARY_COUNT = "vocabulary_count";
     public static final String EXTRA_QUIZ_SCORE = "quiz_score";
     public static final String EXTRA_QUIZ_TOTAL = "quiz_total";
+    public static final String EXTRA_XP_EARNED = "xp_earned";
+    public static final String EXTRA_MODE = "mode";
+    public static final String EXTRA_CHALLENGE_ID = "challenge_id";
     
     // Field Types
     public static final String FIELD_IT = "it";

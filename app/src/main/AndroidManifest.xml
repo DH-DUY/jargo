@@ -84,6 +84,13 @@
             android:name=".activities.LoginHistoryActivity"
             android:exported="false"
             android:theme="@style/Theme.Jargo" />
+        
+        <!-- DebugChallengeActivity - Debug Challenge mode -->
+        <activity
+            android:name=".activities.DebugChallengeActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.Jargo" />
             
     </application>
 

@@ -26,6 +26,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             return (T) new QuizViewModel(prefsManager);
         } else if (modelClass.isAssignableFrom(LearningViewModel.class)) {
             return (T) new LearningViewModel();
+        } else if (modelClass.isAssignableFrom(DebugChallengeViewModel.class)) {
+            return (T) new DebugChallengeViewModel(prefsManager);
         }
         
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
